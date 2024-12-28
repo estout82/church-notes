@@ -1,0 +1,6 @@
+
+<table style="width: 100%; margin: 12px 0; border-collapse: collapse; border-spacing: 0;">
+  <% block_data.data["content"].each do |row| %>
+    <%= render "note_mailer/blocks/table/row", row: row, renderer: renderer %>
+  <% end %>
+</table>

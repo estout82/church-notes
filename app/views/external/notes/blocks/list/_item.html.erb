@@ -1,0 +1,15 @@
+<li>
+  <%= raw list_item["content"] %>
+
+  <% if list_item["items"].present? %>
+    <%= render "external/notes/blocks/list/wrapper", style: style, nested: true do %>
+      <% list_item["items"].each do |item| %>
+        <%=
+          render "external/notes/blocks/list/item",
+            list_item: item,
+            style: style
+        %>
+      <% end %>
+    <% end %>
+  <% end %>
+</li>

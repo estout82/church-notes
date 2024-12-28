@@ -1,0 +1,69 @@
+<%#
+  renders a note and it's blocks externally (un-authed users)
+%>
+
+<% presenter = External::NotePresenter.new @note %>
+
+<div
+  class="w-full md:my-8 md:max-w-5xl md:mx-8 md:px-16 md:pb-4 bg-fill min-w-screen md:min-w-0 min-h-screen md:min-h-0 md:rounded-lg md:shadow-box overflow-hidden"
+>
+  <% if presenter.has_banner? %>
+    <div
+      class="mb-16 max-h-[300px] md:-mx-16 relative overflow-hidden"
+      style="position: relative;"
+    >
+      <%=
+        image_tag presenter.banner_url,
+          id: :banner_image,
+          class: "relative",
+          style: "z-index: 5;"
+      %>
+
+      <div
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background-color: rgba(0, 0, 0, 0.2);"
+      >
+        <h1
+          class="text-5xl"
+          style="position: absolute; width: 100%; top: 50%; transform: translateY(-50%); color: white; font-weight: bold; text-align: center;"
+        >
+          <%= @note.title %>
+        </h1>
+      </div>
+    </div>
+  <% else %>
+    <div
+      class="mb-16 py-16 px-8 max-h-[300px] relative overflow-hidden"
+      style="position: relative;"
+    >
+      <div
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background-color: rgba(0, 0, 0, 0.2);"
+      >
+        <h1
+          class="text-5xl"
+          style="position: absolute; width: 100%; top: 50%; transform: translateY(-50%); color: white; font-weight: bold; text-align: center;"
+        >
+          <%= @note.title %>
+        </h1>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="px-4">
+    <% @note.friendly_editor_data.each do |data| %>
+      <%= render data.to_download_partial_path, block_data: data, renderer: @renderer %>
+    <% end %>
+  </div>
+
+  <div
+    class="footer mt-8 md:bg-input py-8 md:-mx-16 -mb-4"
+    style="display: flex; flex-direction: column; align-items: cener; text-align: center;"
+  >
+    <div class="w-40 text-center m-auto">
+      <%= wicked_pdf_image_tag "long_logo.svg", class: "mt-1.5" %>
+    </div>
+
+    <p class="text-sm mt-2 text-center">
+      Created with <span class="font-bold">NotesPro</span> © <%= Time.current.year %> NotesPro
+    </p>
+  </div>
+</div>

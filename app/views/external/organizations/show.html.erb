@@ -1,0 +1,66 @@
+<div>
+  <%= render "external/overlay" %>
+</div>
+
+<div class="w-full px-8 pt-12">
+  <div>
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-bold">
+        <%= @organization.name %>
+      </h1>
+
+      <div class="text-black flex items-center shrink-0">
+        <button
+          data-action="click->external--nav#open"
+          class="text-black ml-2 -mr-2 md:mr-0"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <%= render "external/inline_nav" %>
+    </div>
+  </div>
+
+  <ul class="flex flex-wrap flex-col md:flex-row gap-4 mt-8 w-full">
+    <% @main_account_live_notes.each do |note| %>
+      <%= render "notes/external_card", note: note %>
+    <% end %>
+
+     <li class="hidden only:block">
+      <p>No notes are live</p>
+    </li>
+  </ul>
+
+  <% if @organization.multisite? && @organization.sub_accounts.present? %>
+    <div class="mt-8">
+      <p class="font-bold text-xl">Campuses</p>
+      <ul class="flex items-center flex-wrap gap-4 mt-4">
+        <% @organization.sub_accounts.each do |sub_account| %>
+          <li>
+            <%= link_to external_account_path(sub_account.alt_id), class: "transition duration-100 hover:opacity-80 rounded-full border-2 border-primary/50 bg-primary/30 px-4 py-2" do %>
+              <span class="text-sm"><%= sub_account.name %></span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mt-8">
+    <p class="font-bold text-xl">Past Notes</p>
+    <ul class="flex flex-wrap flex-col md:flex-row gap-4 mt-4 w-full">
+      <% @past_notes.each do |note| %>
+        <%= render "notes/external_card", note: note, show_date: true %>
+      <% end %>
+
+      <li class="hidden only:block -mt-4">
+        <span class="text-slate-500">None</span>
+      </li>
+    </ul>
+  </div>
+</div>

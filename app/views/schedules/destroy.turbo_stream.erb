@@ -1,0 +1,11 @@
+<%# Renders UI updates when schedule is deleted %>
+
+<%= turbo_stream.remove_all "div[data-schedule-id='#{@schedule.id}']" %>
+
+<%=
+  render "toast",
+    message: "Successfully deleted schedule",
+    level: :info
+%>
+
+<%= render "application/modals/close", all: true %>

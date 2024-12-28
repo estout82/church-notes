@@ -1,0 +1,20 @@
+<%=
+  form_with model: Message.new,
+    url: messages_path,
+    id: "#{note.alt_id}_new_message",
+    class: "flex flex-col gap-4 w-full mb-6" do |form|
+%>
+  <%= form.hidden_field :sender_id, value: current_user.id %>
+  <%= form.hidden_field :recipient_id, value: note.id %>
+  <%= form.hidden_field :recipient_type, value: "note" %>
+  <%= form.hidden_field :context_id, value: note.id %>
+  <%= form.hidden_field :context_type, value: "note" %>
+
+  <%=
+    form.text_area :content,
+      class: "px-2 py-2 bg-input rounded",
+      placeholder: "Comment"
+  %>
+
+  <%= form.submit "Send", class: "px-4 py-2 rounded text-fill bg-primary" %>
+<% end %>

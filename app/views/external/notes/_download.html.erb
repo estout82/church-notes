@@ -1,0 +1,14 @@
+<div
+  data-controller="external--note--download"
+  data-external--note--download-note-alt-id-value="<%= note.alt_id %>"
+>
+  <div class="flex items-start">
+    <button
+      data-controller="loading"
+      data-action="external--note--download#download loading#apply"
+      class="px-6 py-2 rounded bg-primary text-fill"
+    >
+      Download
+    </button>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div data-controller="external--note--response" class="group my-2">
+  <p data-action="click->external--note--response#open" class="min-h-[1rem] mb-1">
+    <%= raw paragraph.data["text"] %>
+  </p>
+
+  <% if paragraph.data["text"].present? %>
+    <%= render "external/notes/blocks/messages", block: paragraph %>
+  <% end %>
+</div>

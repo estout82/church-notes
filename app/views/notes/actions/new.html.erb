@@ -1,0 +1,62 @@
+<%= turbo_frame_tag :new_action do %>
+
+  <div>
+    <h3 class="text-2xl">New Follow Up</h3>
+
+    <%=
+      form_with model: @action,
+        url: note_actions_path,
+        method: :post,
+        class: "mt-4" do |form|
+    %>
+
+      <div>
+        <%= form.label :delay, "Delay", class: "inline-block text-muted" %>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%=
+              form.text_field :delay_value,
+                placeholder: "2",
+                class: "w-full rounded-md border-2 border-slate-200 bg-input px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"
+            %>
+
+            <%= render "application/form_field_errors", errors: @action.errors.full_messages_for(:delay_value) %>
+          </div>
+
+          <div>
+            <%=
+              form.select :delay_unit,
+                @action.delay_unit_options,
+                {selected: :days},
+                {class: "w-full rounded-md border-2 border-slate-200 bg-input px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"}
+            %>
+            <%= render "application/form_field_errors", errors: @action.errors.full_messages_for(:delay_unit) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <%= form.label :message, "Message", class: "inline-block text-muted" %>
+
+        <%=
+          form.text_area :message,
+            rows: 10,
+            placeholder: "Ask a question, reinforce a point or send a reminder. Note takers will be able to respond.",
+            class: "w-full rounded-md border-2 border-slate-200 bg-input px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"
+        %>
+
+        <%= render "application/form_field_errors", errors: @action.errors.full_messages_for(:message) %>
+      </div>
+
+      <div class="mt-4">
+        <%=
+          render "application/forms/submit_button",
+            form: form,
+            text: "Save"
+        %>
+      </div>
+    <% end %>
+  </div>
+
+<% end %>

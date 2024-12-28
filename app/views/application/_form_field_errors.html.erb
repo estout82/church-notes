@@ -1,0 +1,10 @@
+
+<% if errors.any? %>
+  <div class="bg-error inline-block rounded py-2 px-4 mt-2 self-start">
+    <% errors.each do |message| %>
+      <p class="text-fill">
+        <%= message %>
+      </p>
+    <% end %>
+  </div>
+<% end %>

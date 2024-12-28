@@ -1,0 +1,30 @@
+<%#
+  Renders a sub account and it's sub accounts recursively
+
+  recursive_sub_account: the sub account being rendered
+%>
+
+<div class="mb-2">
+  <p class="mb-2">
+    <%=
+      link_to settings_account_path(switch_account: sub_account.id),
+        class: "group hover:text-primary transition-all duration-100 hover:font-bold" do
+    %>
+      <%= sub_account.name %>
+      <i class="fa fa-arrow-right hidden opacity-0 transition duration-100 group-hover:inline group-hover:opacity-80 text-primary"></i>
+    <% end %>
+  </p>
+
+  <% if sub_account.sub_accounts? %>
+    <div class="pl-4">
+      <% sub_account.sub_accounts.each do |account| %>
+        <%=
+          render partial: "organization/subaccounts/recursive_sub_account",
+            locals: {
+              sub_account: account
+            }
+        %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

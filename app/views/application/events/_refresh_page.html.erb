@@ -1,0 +1,8 @@
+<%# Forces the client to refresh the page %>
+
+<%= turbo_stream.append :modal_events do %>
+  <div
+    class="hidden"
+    data-application-target="refreshPage"
+  ></div>
+<% end %>

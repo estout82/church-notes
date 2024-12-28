@@ -1,0 +1,10 @@
+<%= render "note_mailer/blocks/list/wrapper", style: block_data.data["style"] do %>
+  <% block_data.data["items"].each do |item| %>
+    <%=
+      render "note_mailer/blocks/list/item",
+        list_item: item,
+        style: block_data.data["style"],
+        renderer: renderer
+    %>
+  <% end %>
+<% end %>

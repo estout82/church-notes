@@ -1,0 +1,132 @@
+<%#
+  Renders onboarding card
+
+  onboarding: An Accounts::Onboarding
+%>
+
+<section class="rounded bg-fill p-4 shadow">
+  <div>
+    <h2 class="font-semibold text-2xl">Get Started</h2>
+    <p class="text-sm text-muted">
+      Four steps to get going with NotesPro
+    </p>
+    <ul role="list" class="mt-6 flex gap-4 flex-col">
+      <li class="flow-root">
+        <div class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 hover:bg-gray-50">
+
+          <% if onboarding.completed_create? %>
+            <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-success">
+              <i class="text-fill">
+                <%= render "application/icons/check" %>
+              </i>
+            </div>
+          <% else %>
+            <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-primary">
+              <i class="text-fill">
+                <%= render "application/icons/note" %>
+              </i>
+            </div>
+          <% end %>
+
+          <div>
+            <h3 class="text-sm font-medium text-gray-900">
+              <%= link_to notes_path, class: "focus:outline-none" do %>
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                <span>Create</span>
+                <span aria-hidden="true"></span>
+              <% end %>
+            </h3>
+            <p class="mt-1 text-sm text-muted">
+              Use the note editor to create your first note page.
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flow-root">
+        <div class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 hover:bg-gray-50">
+          <% if onboarding.completed_schedule? %>
+            <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-success">
+              <i class="text-fill">
+                <%= render "application/icons/check" %>
+              </i>
+            </div>
+          <% else %>
+            <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-primary">
+              <i class="text-fill">
+                <%= render "application/icons/calendar" %>
+              </i>
+            </div>
+          <% end %>
+
+          <div>
+            <h3 class="text-sm font-medium text-gray-900">
+              <%= link_to schedules_path, class: "focus:outline-none" do %>
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                <span>Schedule</span>
+                <span aria-hidden="true"></span>
+              <% end %>
+            </h3>
+
+            <p class="mt-1 text-sm text-muted">
+              Schedule your new note to be live on NotesPro.
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flow-root">
+        <div class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 hover:bg-gray-50">
+          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-primary">
+            <i class="text-fill">
+              <%= render "application/icons/link" %>
+            </i>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-medium text-gray-900">
+              <a href="#" class="focus:outline-none">
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                <span>Share</span>
+                <span aria-hidden="true"></span>
+              </a>
+            </h3>
+            <p class="mt-1 text-sm text-muted">
+              Share your NotesPro account link or a link directly to the note with your ministry.
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="flow-root">
+        <div class="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 hover:bg-gray-50">
+          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-primary">
+            <i class="text-fill">
+              <%= render "application/icons/users" %>
+            </i>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-medium text-gray-900">
+              <a href="#" class="focus:outline-none">
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                <span>Analyze</span>
+                <span aria-hidden="true"></span>
+              </a>
+            </h3>
+            <p class="mt-1 text-sm text-muted">
+              Use NotesPro to track note views, who is logging in to view notes and even send attendance data to your ChMS.
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="mt-4 flex">
+      <a href="mailto:hello@notespro.church" class="text-sm font-medium text-primary hover:text-primary/90">
+        Contact us with questions or feedback
+        <span aria-hidden="true"> &rarr;</span>
+      </a>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,17 @@
+<%# locals: (follow_up:) %>
+
+<%= turbo_frame_tag follow_up.new_message_turbo_frame_id do %>
+  <%=
+    link_to new_message_path(
+      recipient_type: :message,
+      recipient_id: follow_up.id,
+      context_type: :action,
+      context_id: follow_up.context.id
+    ), class: "text-primary flex items-center gap-2" do
+  %>
+    <i class="w-4 h-4">
+      <%= render "application/icons/plus" %>
+    </i>
+    <span>Add Response</span>
+  <% end %>
+<% end %>

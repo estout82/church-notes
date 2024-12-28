@@ -1,0 +1,38 @@
+<%#
+  required locals:
+  - form : a rails form builder
+  - attribute : the attribute this form field represents
+%>
+
+<% hidden_field_value = (defined? value) ? value.id : "" %>
+
+<div data-controller="note-picker" class="relative">
+  <%=
+    form.hidden_field attribute,
+    value: hidden_field_value,
+    data: {
+      note_picker_target: "hidden"
+    }
+  %>
+  <button
+    data-action="click->note-picker#open"
+    data-note-picker-target="value"
+    class="bg-input block min-h-input rounded-sm appearance-none text-md text-muted p-2 w-full hover:cursor-pointer"
+  >
+    <%= (defined? value) ? value.title : "" %>
+  </button>
+  <div
+    data-note-picker-target="panel"
+    class="hidden bg-fill shadow-box p-2 rounded absolute z-50 w-full mt-2"
+  >
+    <input
+      data-action="input->note-picker#search"
+      data-note-picker-target="input"
+      name="search"
+      placeholder="Search notes..."
+      autocomplete="off"
+      class="bg-input rounded-sm appearance-none text-md p-2 w-full"
+    >
+    <div data-note-picker-target="results" class="pt-2"></div>
+  </div>
+</div>

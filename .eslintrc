@@ -1,0 +1,31 @@
+{
+  "extends": "eslint:recommended",
+  "plugins": ["react"],
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "array-bracket-spacing": [2, "never"],
+    "arrow-parens": [2, "as-needed"],
+    "arrow-spacing": "error",
+    "block-spacing": "error",
+    "brace-style": "error",
+    "comma-dangle": "error",
+    "indent": ["error", 2],
+    "react/jsx-uses-react": "error",   
+    "react/jsx-uses-vars": "error",
+    "getter-return": "error",
+    "semi": ["error", "always"],
+    "space-in-parens": "error",
+    "object-curly-spacing": "error",
+    "quotes": ["error", "double"],
+    "no-case-declarations": "off"
+  }
+}

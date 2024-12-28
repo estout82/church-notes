@@ -1,0 +1,67 @@
+<%#
+  Renders a single cell in the calendar
+
+  date: the date for the cell
+  presenter: a schedule presenter
+%>
+
+<div
+  data-action="mouseenter->schedule--index#showScheduleNoteButton mouseleave->schedule--index#hideScheduleNoteButton"
+  class="h-40 border-t border-input flex flex-col overflow-y-scroll"
+>
+  <p class="<%= presenter.date_text_color(date) %> flex justify-start items-center">
+    <span><%= date.day %></span>
+
+    <% if (date - Time.current.in_time_zone(current_user.time_zone)).to_i / 60 / 60 /24 == -1 %>
+      <%# date is today %>
+
+      <span class="rounded bg-muted text-fill opacity-60 text-xs px-2 py-0.5 my-1 ml-2">
+        Today
+      </span>
+
+    <% end %>
+  </p>
+
+  <div
+    id="date-container-<%= date.to_s %>"
+    class="flex-1"
+  >
+
+  </div>
+
+  <div className="flex justify-end w-full p-2">
+    <button
+      data-application-target="modalButton"
+      data-modal-id="new_schedule_<%= date.to_s.gsub(" ", "") %>"
+      data-modal-action="open"
+      data-transition-enter="transition ease-out duration-100"
+      data-transition-enter-start="transform opacity-0 scale-95"
+      data-transition-enter-end="transform opacity-100 scale-100"
+      data-transition-leave="transition ease-in duration-75"
+      data-transition-leave-start="transform opacity-100 scale-100"
+      data-transition-leave-end="transform opacity-0 scale-95"
+      class="hidden text-muted text-sm font-bold"
+    >
+      + Schedule Note
+    </button>
+
+    <%# New scheudle modal (for this date) %>
+    <%= render "application/modal", modal_id: "new_schedule_#{date.to_s.gsub(" ", "")}" do %>
+      <%=
+        turbo_frame_tag :new_schedule,
+          src: new_schedule_path(
+            date: (
+              (
+                date
+                  .in_time_zone(current_user.time_zone)
+                  .midnight
+              ) + 8.hours
+            ).iso8601,
+            modal_id: "new_schedule_#{date.to_s.gsub(" ", "")}"
+          ),
+          loading: :lazy,
+          class: "w-full"
+      %>
+    <% end %>
+  </div>
+</div>

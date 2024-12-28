@@ -1,0 +1,42 @@
+<%#
+  Renders the details section of the account settings page
+
+  account: The account
+%>
+
+<section class="bg-fill rounded p-4 mt-8">
+  <h3 class="mb-4 text-lg font-semibold">Details</h3>
+
+  <div>
+    <p>Name</p>
+    <p class="text-muted text-xs">
+      Please contact support to change this
+    </p>
+
+    <p class="mt-2 border bg-input p-2 rounded">
+      <%= account.name %>
+    </p>
+  </div>
+
+  <div class="mt-4">
+    <p>External Link</p>
+    <p class="text-muted text-xs">
+      This is the link where your attendees can find the notes for your account
+    </p>
+    <p class="mt-2 border bg-input p-2 rounded">
+      <%= external_account_url(account.alt_id) %>
+    </p>
+    <p class="flex">
+      <%=
+        link_to external_account_url(account.alt_id),
+          target: :_blank,
+          class: "block text-fill bg-primary px-4 py-2 rounded mt-2 flex items-center justify-center" do
+      %>
+        <i class="mr-1">
+          <%= render "application/icons/external_link" %>
+        </i>
+        Visit
+      <% end %>
+    </p>
+  </div>
+</section>

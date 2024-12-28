@@ -1,0 +1,9 @@
+<%# Renders UI when a sub account is deleted %>
+
+<%= turbo_stream.remove dom_id(@subaccount) %>
+
+<%=
+  render "toast",
+    message: "Sub account deleted successfuly",
+    level: :success
+%>

@@ -1,0 +1,22 @@
+<div class="rounded bg-fill p-4">
+  <div class="mb-4">
+    <h2 class="font-semibold text-2xl">Note Views</h2>
+    <p class="text-sm text-muted">
+      Views for all notes in the <%= current_account.name %> account
+    </p>
+  </div>
+
+  <div>
+
+    <div>
+      <div
+        data-home-target="accountNoteViewsChartData"
+        data-values="<%= @account_note_views_data.values.to_json %>"
+        data-labels="<%= @account_note_views_data.labels.to_json %>"
+      ></div>
+
+      <canvas data-home-target="accountNoteViewsChart" class="max-h-[300px] w-full"></canvas>
+    </div>
+
+  </div>
+</div>

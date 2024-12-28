@@ -1,0 +1,60 @@
+<%#
+  Renders a note card for external views
+
+  note: the note being rendered
+  new_tab: determins if the link should open in a new card
+  redirect: true or false based on if this is the redirect note for the account
+  show_date: boolean
+%>
+
+<% new_tab ||= false %>
+<% redirect ||= false %>
+<% show_date ||= false %>
+
+<li class="relative w-full md:w-80">
+  <div class="bg-input rounded shadow-box relative p-4 overflow-hidden">
+    <div class="absolute rounded top-0 left-0 w-full h-full">
+      <% if note.banner? %>
+        <div class="relative">
+          <div class="absolute top-0 left-0 w-full h-full bg-black/30"></div>
+          <img
+            src="<%= note.best_banner_url %>"
+            class="w-full rounded"
+          >
+        </div>
+      <% else %>
+        <div class="w-full h-full rounded bg-gradient-to-l from-primary/60 to-slate-300"></div>
+      <% end %>
+    </div>
+
+    <div class="relative z-10">
+      <h5 class="font-semibold text-fill">
+        <%= note.title %>
+      </h5>
+
+      <% if show_date %>
+        <p class="text-fill text-xs">
+          <%= note.schedules.order(created_at: :desc).first.end_at.strftime("%B %d, %Y") %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <%=
+    link_to "",
+      external_note_path(note.alt_id),
+      target: new_tab ? :_blank : nil,
+      data: {
+        note_id: note.id
+      },
+      class: "external-note absolute top-0 left-0 w-full h-full z-10"
+  %>
+
+  <%# current redirect indicator: hidden unless this is the primary note %>
+  <div class="<%= "hidden" unless redirect %> note-redirect-indicator absolute -top-2 -right-2 rounded bg-info text-sm text-fill flex font-bold px-2 py-1 items-center">
+    Redirecting
+    <i class="h-4 w-4 ml-1">
+      <%= render "application/icons/lightning" %>
+    </i>
+  </div>
+</li>

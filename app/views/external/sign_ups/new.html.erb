@@ -1,0 +1,70 @@
+
+<div class="w-full px-8 pt-12">
+  <div class="mb-4">
+    <%= link_to @sign_up.interest_url, class: "text-primary text-left flex items-center gap-1" do %>
+      <i class="w-5 h-5">
+        <%= render "application/icons/chevron_left" %>
+      </i>
+      <span>
+        Back
+      </span>
+    <% end %>
+  </div>
+
+  <div>
+    <h1 class="text-3xl font-bold mb-6">
+      Join <%= current_external_organization.name %>
+    </h1>
+
+    <%= form_with url: external_organization_sign_ups_path(current_external_organization), model: @sign_up, class: "w-full flex flex-col gap-4" do |form| %>
+      <%= form.hidden_field :interest_url %>
+
+      <div>
+        <%=
+          form.text_field :first_name,
+            class: "px-2 py-2 bg-slate-100 border-1 border-slate-200 rounded w-full",
+            placeholder: "First name"
+        %>
+        <%= render "application/forms/field_errors", entity: @sign_up, field: :first_name %>
+      </div>
+
+      <div>
+        <%=
+          form.text_field :last_name,
+            class: "px-2 py-2 bg-slate-100 border-1 border-slate-200 rounded w-full",
+            placeholder: "Last name"
+        %>
+        <%= render "application/forms/field_errors", entity: @sign_up, field: :last_name %>
+      </div>
+
+      <div>
+        <%=
+          form.text_field :email,
+            class: "px-2 py-2 bg-slate-100 border-1 border-slate-200 rounded w-full",
+            placeholder: "Email"
+        %>
+        <%= render "application/forms/field_errors", entity: @sign_up, field: :email %>
+      </div>
+
+      <div>
+        <%=
+          form.password_field :password,
+            class: "px-2 py-2 bg-slate-100 border-1 border-slate-200 rounded w-full",
+            placeholder: "Password"
+        %>
+        <%= render "application/forms/field_errors", entity: @sign_up, field: :password %>
+      </div>
+
+      <div>
+        <%=
+          form.password_field :password_confirmation,
+            class: "px-2 py-2 bg-slate-100 border-1 border-slate-200 rounded w-full",
+            placeholder: "Password confirmation"
+        %>
+        <%= render "application/forms/field_errors", entity: @sign_up, field: :password_confirmation %>
+      </div>
+
+      <%= form.submit "Sign up", class: "px-4 py-2 rounded text-fill bg-primary" %>
+    <% end %>
+  </div>
+</div>

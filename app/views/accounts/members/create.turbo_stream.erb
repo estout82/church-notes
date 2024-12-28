@@ -1,0 +1,16 @@
+<%# Renders UI updates when a new member is added %>
+
+<%# flash %>
+<%=
+  render "toast",
+    message: "Created user successfully",
+    level: :success
+%>
+
+<%# add row to table %>
+<%= turbo_stream.append :members do %>
+  <%= render "accounts/members/member", member: @member %>
+<% end %>
+
+<%# close modal %>
+<%= render "application/modals/close" %>

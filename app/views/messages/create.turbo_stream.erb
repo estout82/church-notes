@@ -1,0 +1,21 @@
+<% if @message.recipient.is_a? Note %>
+  <%# The message is appended via a turbo stream broadcast %>
+
+  <%= turbo_stream.replace "#{@message.recipient.alt_id}_new_message" do %>
+    <%= render "external/notes/discussion/new_message_form", note: @message.recipient %>
+  <% end %>
+<% end %>
+
+<% if @message.recipient.is_a? Message %>
+  <%# This is currently only allowed for follow_up responses %>
+  <%= turbo_stream.append "#{@message.recipient.id}_responses" do %>
+    <%= render "external/notes/follow_ups/response", message: @message %>
+  <% end %>
+
+  <%= turbo_stream.replace @message.recipient.new_message_turbo_frame_id do %>
+    <%=
+      render "external/notes/follow_ups/add_response",
+        follow_up: @message.recipient
+    %>
+  <% end %>
+<% end %>

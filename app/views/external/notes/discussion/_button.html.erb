@@ -1,0 +1,32 @@
+<button
+  id="<%= note.discussion_button_dom_id %>"
+  data-action="click->external--comments#open"
+  class="w-full"
+>
+  <div class="p-4 md:p-8 bg-slate-200 md:rounded flex items-center justify-between">
+    <div class="text-left">
+      <% note.messages.first&.tap do |message| %>
+        <p class="text-sm line-clamp-1">
+          <%= message.content %>
+        </p>
+        <p class="text-xs text-slate-700">
+          <%= message.sent_at_summary %>
+        </p>
+
+        <% if note.messages.size > 1 %>
+          <p class="italic text-xs text-primary mt-2">
+            + <%= note.messages.size - 1 %> more
+          </p>
+        <% end %>
+      <% end %>
+
+      <p class="italic text-slate-400 hidden only:block">
+        No discussion yet
+      </p>
+    </div>
+
+    <i class="text-primary" >
+      <%= render "application/icons/comments" %>
+    </i>
+  </div>
+</button>

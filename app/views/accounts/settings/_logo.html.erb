@@ -1,0 +1,38 @@
+<section class="bg-fill rounded p-4 mt-8">
+  <h3 class="mb-4 text-lg font-semibold">Logo</h3>
+
+  <p>Upload</p>
+  <p class="text-muted text-xs">
+    This image will appear in the header for this account's note pages
+  </p>
+
+  <% if account.logo.attached? %>
+    <div id="account_setings_<%= @account.alt_id %>_logo" class="mt-2">
+      <%= render "accounts/logo", account: %>
+    </div>
+  <% else %>
+    <div id="account_setings_<%= @account.alt_id %>_logo" class="mt-2 border bg-input p-2 rounded">
+      No logo has been uploaded
+    </div>
+  <% end %>
+
+  <div class="mt-4">
+    <button
+      data-application-target="modalButton"
+      data-modal-id="edit_account_logo"
+      data-modal-action="open"
+      class="px-4 py-2 rounded text-fill bg-primary"
+    >
+      <%= account.logo.attached? ? "Replace" : "Upload" %>
+    </button>
+
+    <%= render "application/modal", modal_id: :edit_account_logo do %>
+      <%=
+        turbo_frame_tag :edit_account_logo,
+          src: edit_account_settings_logo_path(account),
+          loading: :lazy
+      %>
+    <% end %>
+  </div>
+
+</section>

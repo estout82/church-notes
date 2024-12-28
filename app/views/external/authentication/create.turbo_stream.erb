@@ -1,0 +1,15 @@
+<%= turbo_stream.replace :external_nav do %>
+  <%= turbo_frame_tag :external_nav do %>
+    <%= render "external/overlay/nav", authentication_attempt: @attempt %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace_all "#external_inline_nav" do %>
+  <%= render "external/inline_nav" %>
+<% end %>
+
+<% if @note %>
+  <%= turbo_stream.replace "#{@note.alt_id}_messages" do %>
+    <%= render "external/notes/discussion/messages", note: @note %>
+  <% end %>
+<% end %>

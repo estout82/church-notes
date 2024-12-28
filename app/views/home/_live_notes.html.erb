@@ -1,0 +1,86 @@
+<div class="p-4 bg-fill rounded flex flex-col shadow">
+  <div class="md:grid grid-cols-4">
+    <div class="col-span-3 md:pr-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-semibold text-2xl">Live Notes</h3>
+          <p class="text-muted text-sm">
+            <% if notes.present? %>
+              Below are the notes that are live for <%= current_account.name %>
+            <% else %>
+              There are currently not any notes live for <%= current_account.name %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+
+      <ul class="flex flex-wrap flex-col md:flex-row gap-4 w-full">
+        <%= render "home/live_note_list", notes: notes, account: current_account %>
+      </ul>
+    </div>
+
+    <div>
+      <div data-controller="schedule--account-link-settings" data-account-id="<%= current_account.id %>" class="col-span-1 bg-gray-100 border border-gray-300 rounded p-4">
+        <h3 class="text-lg font-semibold">Link Settings</h3>
+
+        <div class="flex flex-col mt-2">
+          <p>Redirect</p>
+          <p class="text-sm text-muted">When checked, the link will redirect to the currently live note</p>
+
+          <div>
+            <input
+              data-action="schedule--account-link-settings#submitRedirectValue"
+              type="checkbox"
+              <% if current_account.link_redirects? %>
+                checked
+              <% end %>
+            >
+
+            <span data-schedule--account-link-settings-target="savedMessage" class="hidden text-muted ml-1">
+              Saved
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <% if notes.present? && notes.length > 1 && current_account.link_redirects? %>
+            <div class="mt-2">
+              <p>Primary Note</p>
+              <p class="text-sm text-muted">This note will be used as the redirect when redirecting is turned on</p>
+              <select
+                data-action="change->schedule--account-link-settings#submitPrimaryNoteValue"
+                class="mt-2"
+              >
+                <% notes.each do |note| %>
+                  <option
+                    <% "selected" if note.id == current_account.primary_note_id %>
+                    value="<%= note.id %>"
+                  >
+                    <%= note.title %>
+                  </option>
+                <% end %>
+              </select>
+
+              <span data-schedule--account-link-settings-target="primaryNoteSavedMessage" class="hidden text-muted ml-1">
+                Saved
+              </span>
+            </div>
+          <% end %>
+        </div>
+
+        <button
+          data-controller="clipboard"
+          data-action="clipboard#copy"
+          data-text="<%= external_account_url(current_account.alt_id) %>"
+          data-start-text="Copy Account Link"
+          class="bg-primary text-white rounded px-4 py-2 text-center flex items-center justify-center w-full mt-4"
+        >
+          <i class="mr-1">
+            <%= render "application/icons/link" %>
+          </i>
+          Copy Account Link
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

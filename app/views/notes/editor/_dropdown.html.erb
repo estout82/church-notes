@@ -1,0 +1,25 @@
+<div
+  data-controller="dropdown"
+  data-action="click@document->dropdown#handleDocumentClick"
+  class="transition duration-100 mt-1 mr-2 relative"
+>
+  <button
+    data-action="click->dropdown#toggle"
+    data-dropdown-target="selection"
+    class="opacity-0 group-hover:opacity-100"
+  >
+    <i class="sortablejs-handle cursor-pointer w-5 h-5 text-gray-500 inline-block">
+      <%= render "application/icons/dots" %>
+    </i>
+  </button>
+
+  <div
+    class="hidden left-0 absolute px-4 py-1 w-40 bg-fill rounded shadow-box z-10"
+    data-dropdown-target="panel"
+  >
+    <%# delete button %>
+    <button class="text-error">
+      Delete
+    </button>
+  </div>
+</div>

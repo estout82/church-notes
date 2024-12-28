@@ -1,0 +1,39 @@
+<%= @meta = capture do %>
+  <meta name="robots" content="noindex">
+<% end %>
+
+<% @content = capture do %>
+  <div>
+    <h1 class="text-3xl text-center font-semibold text-black">
+      Reset Your Password
+    </h1>
+
+    <%=
+      form_with model: @password_reset,
+        url: password_resets_path,
+        method: :post do |f|
+    %>
+      <div>
+        <%= render "application/forms/field_errors", entity: @password_reset, field: :general %>
+      </div>
+
+      <div class="flex flex-col">
+        <%= f.label :email, "Email", class: "font-semibold text-muted mt-4 mb-2" %>
+        <%= f.text_field :email, class: "w-full bg-input rounded-sm appearance-none text-md p-2" %>
+        <%= render "application/forms/field_errors", entity: @password_reset, field: :email %>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <%= f.submit "Send Email", class: "px-4 py-1 rounded bg-primary text-fill" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @external %>
+  <%= turbo_frame_tag :external_login do %>
+    <%= @content %>
+  <% end %>
+<% else %>
+  <%= @content %>
+<% end %>

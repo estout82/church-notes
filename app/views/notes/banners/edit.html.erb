@@ -1,0 +1,36 @@
+<%= turbo_frame_tag :unsplash_results do %>
+  <div>
+    <div class="grid grid-cols-3">
+      <% if @results.present? %>
+        <% @results.each do |result| %>
+          <div class="m-4">
+            <%=
+              button_to note_banner_path(@note),
+                method: :patch,
+                params: {
+                  note: {
+                    banner_url: result.urls.regular
+                  }
+                } do
+            %>
+              <img
+                src="<%= result.urls.regular %>"
+                class="rounded-md shadow-lg transition duration-150 hover:scale-105 hover:cursor-pointer"
+              >
+            <% end %>
+
+             <p class="text-left">
+              <%=
+                link_to result.user.name,
+                  result.user.portfolio_url,
+                  target: :_blank,
+                  class: "text-muted underline"
+              %>
+            </p>
+          </div>
+        <% end %>
+      <% else %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

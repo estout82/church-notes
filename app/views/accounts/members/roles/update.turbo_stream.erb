@@ -1,0 +1,13 @@
+<%# Renders UI changes when a user account member is updated %>
+
+<%=
+  render "toast",
+    message: "Updated #{@member.user.first_name}'s role",
+    level: :success
+%>
+
+<%= turbo_stream.replace "member_#{@member.id}_roles" do %>
+  <%= render "accounts/members/role_list", member: @member %>
+<% end %>
+
+<%= render "application/modals/close" %>

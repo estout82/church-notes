@@ -1,0 +1,39 @@
+<%# locals: (note:) %>
+
+<div class="mb-4 md:mt-4" data-controller="external--comments">
+  <%= render "external/notes/discussion/button", note: note %>
+
+  <%# Renders the comments overlay %>
+  <div
+    data-external--comments-target="overlay"
+    data-transition-enter="transition-all duration-200"
+    data-transition-enter-start="left-[100%]"
+    data-transition-enter-end="left-0"
+    data-transition-leave="transition-all duration-500"
+    data-transition-leave-start="left-0"
+    data-transition-leave-end="left-[100%]"
+    class="fixed bg-black/90 backdrop-blur-sm hidden top-0 w-screen h-screen z-30 overflow-y-scroll"
+  >
+    <div class="px-8">
+      <div class="mt-16">
+
+        <%# close overlay button %>
+        <div class="absolute top-4 right-4">
+          <button
+            data-action="click->external--comments#close"
+            class="cursor-pointer"
+          >
+            <i class="text-[lightgrey]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </i>
+          </button>
+        </div>
+
+        <%= render "external/notes/discussion/messages", note: note %>
+      </div>
+    </div>
+  </div>
+
+</div>

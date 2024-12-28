@@ -1,0 +1,7 @@
+<%= @meta = capture do %>
+  <meta name="robots" content="noindex">
+<% end %>
+
+<%= turbo_frame_tag @frame_id do %>
+  <%= render "external/overlay/nav", authentication_attempt: @attempt %>
+<% end %>

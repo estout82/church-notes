@@ -1,0 +1,21 @@
+{
+  "environments": {
+    "test": {
+      "addons":[
+         "heroku-postgresql:in-dyno"
+      ],
+      "buildpacks": [
+        {
+          "url": "heroku/nodejs"
+        },
+        {
+          "url": "heroku/ruby"
+        }
+      ],
+      "scripts": {
+        "test-setup": "bin/rails assets:precompile",
+        "test": "bin/rails test"
+      }
+    }
+  }
+}

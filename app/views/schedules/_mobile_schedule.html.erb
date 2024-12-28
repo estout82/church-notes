@@ -1,0 +1,16 @@
+<div
+  data-application-target="modalButton"
+  data-modal-id="edit_schedule"
+  data-modal-action="open"
+  data-action="click->schedule--index#showEdit"
+  data-schedule-id="<%= schedule.id %>"
+  class="rounded px-2 py-1 flex items-center justify-between bg-primary text-fill mb-1 text-xs grow pointer-events-auto hover:cursor-pointer hover:opacity-90"
+>
+  <span>
+    <%= schedule.note.title %>
+  </span>
+
+  <span>
+    <%= date_time_formatted schedule.start_at.in_time_zone(current_user.time_zone) %> to <%= date_time_formatted schedule.end_at.in_time_zone(current_user.time_zone) %>
+  </span>
+</div>

@@ -1,0 +1,17 @@
+<div data-controller="home" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+  <div class="md:col-span-3">
+    <%= render "home/live_notes", notes: @live_notes %>
+  </div>
+
+  <div class="md:col-span-2">
+    <%= render "home/note_views" %>
+  </div>
+
+  <% if @onboarding.show? %>
+    <div class="col-span-1">
+      <%= render "home/onboarding", onboarding: @onboarding %>
+    </div>
+  <% end %>
+
+</div>

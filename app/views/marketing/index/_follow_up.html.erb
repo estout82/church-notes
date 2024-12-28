@@ -1,0 +1,41 @@
+<div data-modal-role="panel" class="relative">
+    
+  <turbo-frame>
+
+  <div>
+
+      <div>
+        <label class="inline-block text-muted" for="actions_types_follow_up_delay">Delay</label>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <input placeholder="2" class="w-full rounded-md border-2 border-slate-200 bg-input px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm" type="text" name="actions_types_follow_up[delay_value]" id="actions_types_follow_up_delay_value">
+
+            
+
+          </div>
+
+          <div>
+            <select class="w-full rounded-md border-2 border-slate-200 bg-input px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm" name="actions_types_follow_up[delay_unit]" id="actions_types_follow_up_delay_unit"><option value="hours">Hours</option>
+<option selected="selected" value="days">Days</option>
+<option value="weeks">Weeks</option></select>
+            
+
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label class="inline-block text-muted" for="actions_types_follow_up_message">Message</label>
+
+        <textarea rows="10" placeholder="Ask a question, reinforce a point or send a reminder. Note takers will be able to respond." class="w-full rounded-md border-2 border-slate-200 bg-input px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm" name="actions_types_follow_up[message]" id="actions_types_follow_up_message" style="height: 77px;"></textarea>
+
+        
+
+      </div>
+
+  </div>
+
+</turbo-frame>
+
+  </div>

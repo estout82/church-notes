@@ -1,0 +1,53 @@
+<%#
+  presenter
+%>
+
+<div class="grid grid-cols-7 mt-8">
+  <div class="text-muted">
+    <p>Sunday</p>
+  </div>
+  <div class="text-muted">
+    <p>Monday</p>
+  </div>
+  <div class="text-muted">
+    <p>Tuesday</p>
+  </div>
+  <div class="text-muted">
+    <p>Wednesday</p>
+  </div>
+  <div class="text-muted">
+    <p>Thursday</p>
+  </div>
+  <div class="text-muted">
+    <p>Friday</p>
+  </div>
+  <div class="text-muted">
+    <p>Saturday</p>
+  </div>
+</div>
+
+<div class="grid grid-cols-7 relative">
+  <% date = presenter.start_date %>
+  <% row_count = presenter.iteration_count / 7 %>
+
+  <% row_count.times do |row| %>
+    <%
+      row_start = (date + (row * 7).days)
+        .in_time_zone(current_user.time_zone)
+        .beginning_of_day
+    %>
+
+    <%
+      row_end = (row_start + 6.days)
+        .in_time_zone(current_user.time_zone)
+        .end_of_day
+    %>
+
+    <%=
+      render "schedules/row",
+        start_at: row_start,
+        end_at: row_end,
+        presenter:
+    %>
+  <% end %>
+</div>

@@ -1,0 +1,30 @@
+<%#
+  user
+  editing
+%>
+
+<%= turbo_frame_tag :first_name do %>
+  <% if editing %>
+    <div class="flex items-center gap-4 mt-2">
+      <%= form_with model: user, url: external_me_path, method: :patch, class: "w-full" do |form| %>
+        <div>
+          <div>
+            <%= form.text_field :first_name, class: "px-2 py-2 bg-input rounded w-full max-w-80" %>
+          </div>
+
+          <div class="flex items-center gap-2 mt-2 ml-1 text-sm">
+            <%= form.submit "Save", class: "text-primary font-medium" %>
+            <%= link_to "Cancel", external_me_path, class: "text-slate-500 text-sm font-medium" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="flex items-center gap-4">
+      <p><%= user.first_name %></p>
+      <%= link_to edit_external_me_path(field: :first_name), class: "text-primary" do %>
+        <%= render "application/icons/edit" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,43 @@
+<%# locals: (authentication_attempt:, title: "Sign In", from_note: nil, turbo_frame_id: :external_nav_sign_in) %>
+
+<% title ||= "Sign In" %>
+<% turbo_frame_id ||= :external_nav_sign_in %>
+<% from_note ||= nil %>
+
+<%= turbo_frame_tag turbo_frame_id do %>
+  <div class="flex flex-col items-center justify-center gap-4">
+    <h2 class="font-bold text-3xl text-fill"><%= title %></h2>
+
+    <%=
+      form_with model: authentication_attempt,
+        url: external_authentication_path(frame_id: turbo_frame_id, from_note_alt_id: from_note&.alt_id),
+        class: "flex flex-col gap-4 w-full max-w-[300px]" do |form|
+    %>
+      <%= render "application/forms/field_errors", entity: authentication_attempt, field: :base %>
+
+      <%=
+        form.text_field :email,
+          class: "px-2 py-2 bg-input rounded",
+          placeholder: "Email"
+      %>
+
+      <%=
+        form.password_field :password,
+          class: "px-2 py-2 bg-input rounded",
+          placeholder: "Password"
+      %>
+
+      <%= form.submit "Sign In", class: "px-4 py-2 rounded text-fill bg-primary" %>
+    <% end %>
+
+    <p class="text-fill mt-4">
+      <span>Don't have an account?</span>
+      <%=
+        link_to "Sign up here",
+          new_external_organization_sign_up_path(current_external_organization, interest_url: request.original_url),
+          data: {turbo_frame: :_top},
+          class: "font-bold text-primary"
+      %>
+    </p>
+  </div>
+<% end %>

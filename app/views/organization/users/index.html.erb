@@ -1,0 +1,44 @@
+<%# Renders a list of all users in the current organization %>
+
+<div>
+
+  <aside class="flex justify-between bg-fill items-center p-4 rounded">
+    <h3 class="font-semibold text-xl">
+      Users
+
+      <span class="text-sm rounded-full bg-blue-200 text-blue-700 px-4 ml-4 py-1">
+        <%= pluralize @users.size, "User" %>
+      </span>
+    </h3>
+
+    <div>
+      <button
+        data-application-target="modalButton"
+        data-modal-id="new_user"
+        data-modal-action="open"
+        class="px-4 py-1 text-white bg-primary rounded"
+      >
+        Add User
+      </button>
+    </div>
+  </aside>
+
+  <section class="col-span-3 py-4 px-5 bg-fill rounded-md mt-4">
+    <ul id="users" class="mt-4">
+
+        <% @users.each do |user| %>
+          <%= render "organization/users/user", user: %>
+        <% end %>
+
+      </ul>
+  </section>
+
+</div>
+
+<%= render "application/modal", modal_id: :new_user do %>
+  <%=
+    turbo_frame_tag :new_user,
+      src: new_organization_user_path,
+      loading: :lazy
+  %>
+<% end %>

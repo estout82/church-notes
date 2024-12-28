@@ -1,0 +1,32 @@
+<div class="md:rounded-md bg-fill p-4 mb-8 flex w-full justify-between space-x-8">
+  <div class="space-x-8">
+    <%=
+      link_to "Edit",
+        edit_note_path(@note),
+        class: "#{@current_sub_page == :edit ? "text-primary border-b-2 border-primary" : ""} text-xl cursor-pointer hover:text-primary pb-2"
+    %>
+
+    <%=
+      link_to "People",
+        note_analytics_path(@note),
+        class: "#{@current_sub_page == :analytics ? "text-primary border-b-2 border-primary" : ""} text-xl cursor-pointer hover:text-primary pb-2"
+    %>
+
+    <%=
+      link_to "Follow Ups",
+        note_actions_path(@note),
+        class: "#{@current_sub_page == :actions ? "text-primary border-b-2 border-primary" : ""} text-xl cursor-pointer hover:text-primary pb-2"
+    %>
+  </div>
+
+  <div>
+    <%=
+      link_to external_note_path(@note),
+        target: :_blank,
+        class: "px-4 py-1 border rounded border-primary text-primary inline-flex items-center gap-1" do
+    %>
+      <span>View</span>
+      <%= render "application/icons/external" %>
+    <% end %>
+  </div>
+</div>

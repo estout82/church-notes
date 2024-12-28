@@ -1,0 +1,9 @@
+<%# Renders UI updates when an organization setting is updated %>
+
+<%=
+  render "toast",
+    message: "Updated #{current_organization.name}",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

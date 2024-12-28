@@ -1,0 +1,14 @@
+<%# Renders UI updates when a user account member is deleted on the account users page %>
+
+<%# flash %>
+<%=
+  render "toast",
+    message: "Removed user successfully",
+    level: :success
+%>
+
+<%# add row to table %>
+<%= turbo_stream.remove dom_id(@member) %>
+
+<%# close modal %>
+<%= render "application/modals/close" %>

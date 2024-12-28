@@ -1,0 +1,81 @@
+<%# locals: (message:, note:) %>
+
+<% presenter = MessagePresenter.new message, note: note, current_user: current_user %>
+
+<li id="<%= message.list_item_id %>" class="text-slate-100 py-2 flex items-start">
+  <div class="grow">
+    <p>
+      <%= message.content %>
+    </p>
+
+    <p class="text-xs text-slate-300 italic">
+      <%= message.sent_at_summary %>
+    </p>
+  </div>
+
+  <% if presenter.show_three_dots? %>
+    <div
+      data-controller="dropdown"
+      data-action="click@document->dropdown#handleDocumentClick"
+      class="relative"
+    >
+      <button
+        data-action="click->dropdown#toggle"
+        data-dropdown-target="selection"
+        class="w-6 h-6 inline-block text-slate-400 mr-2"
+      >
+        <i>
+          <%= render "application/icons/dots" %>
+        </i>
+      </button>
+
+      <div class="hidden right-4 absolute px-4 py-1 w-40 bg-slate-100 rounded shadow-box z-10" data-dropdown-target="panel">
+        <ul class="space-y-2">
+          <% if presenter.show_delete? %>
+            <li class="text-muted">
+              <button
+                data-application-target="modalButton"
+                data-modal-id="<%= dom_id message %>_delete_confirmation"
+                data-modal-action="open"
+                class="text-error"
+              >
+                Delete
+              </button>
+
+              <%# Delete confirmation modal %>
+              <%= render "application/modal", modal_id: "#{dom_id message}_delete_confirmation" do %>
+                <div class="text-slate-800">
+                  <h3 class="font-semibold text-xl">
+                    Are you sure?
+                  </h3>
+
+                  <p>
+                    Deleting a comment can't be undone.
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-center mt-4">
+                  <%=
+                    button_to "Delete",
+                      message_path(message),
+                      method: :delete,
+                      class: "px-2 py-1 bg-error rounded text-fill"
+                  %>
+
+                  <button
+                    data-application-target="modalButton"
+                    data-modal-id="<%= dom_id message %>_delete_confirmation"
+                    data-modal-action="close"
+                    class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+</li>

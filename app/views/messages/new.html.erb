@@ -1,0 +1,37 @@
+<%= turbo_frame_tag @message.recipient.new_message_turbo_frame_id do %>
+  <%=
+    form_with model: @message,
+      url: messages_path,
+      id: @message.recipient.new_message_form_id,
+      class: "flex flex-col gap-2 w-full" do |form|
+  %>
+    <%= form.hidden_field :sender_id, value: current_user.id %>
+    <%= form.hidden_field :recipient_id, value: @message.recipient.id %>
+    <%= form.hidden_field :recipient_type, value: @message.recipient.message_recipient_type %>
+
+    <% if @context %>
+      <%= form.hidden_field :context_id, value: @context.id %>
+      <%= form.hidden_field :context_type, value: @context.message_recipient_type %>
+    <% end %>
+
+    <div class="px-2 py-2 bg-input rounded border border-slate-200">
+      <%=
+        form.text_area :content,
+          rows: 5,
+          class: "w-full bg-transparent outline-none",
+          placeholder: "Response"
+      %>
+
+      <div>
+        <%= form.submit "Save", class: "px-2 py-1 rounded text-fill bg-primary" %>
+
+        <%=
+          link_to "Cancel",
+            external_note_path(@message.recipient.note),
+            class: "px-3 py-1 rounded text-primary"
+        %>
+      </div>
+    </div>
+
+  <% end %>
+<% end %>

@@ -1,0 +1,69 @@
+<%#
+  start_at
+%>
+
+<ul class="flex flex-col divide-y divide-slate-200">
+  <% current = start_at %>
+
+  <% while current <= start_at.end_of_month %>
+    <li class="py-4">
+      <p class="text-xs text-slate-500 inline-flex items-center gap-2">
+        <span>
+          <%= current.strftime("%A %b %-d#{day_ordinal_suffix(current.day)}") %>
+        </span>
+
+        <% if current == Time.current.in_time_zone(current_user.time_zone).to_date %>
+          <%# date is today %>
+          <span class="rounded bg-muted text-fill opacity-60 text-xs px-2 py-0.5 my-1">
+            Today
+          </span>
+        <% end %>
+      </p>
+
+      <ul class="mt-1">
+        <% presenter.schedules_for_date(current).each do |schedule| %>
+          <%= render "schedules/mobile_schedule", schedule: schedule %>
+        <% end %>
+
+        <li class="hidden only:block">
+          <p class="text-sm">No notes scheduled</p>
+        </li>
+      </ul>
+
+      <button
+        data-application-target="modalButton"
+        data-modal-id="new_schedule_<%= current.to_date.to_s.gsub(" ", "") %>_list"
+        data-modal-action="open"
+        data-transition-enter="transition ease-out duration-100"
+        data-transition-enter-start="transform opacity-0 scale-95"
+        data-transition-enter-end="transform opacity-100 scale-100"
+        data-transition-leave="transition ease-in duration-75"
+        data-transition-leave-start="transform opacity-100 scale-100"
+        data-transition-leave-end="transform opacity-0 scale-95"
+        class="text-primary text-xs font-bold"
+      >
+        + Schedule Note
+      </button>
+
+      <%= render "application/modal", modal_id: "new_schedule_#{current.to_date.to_s.gsub(" ", "")}_list" do %>
+        <%=
+          turbo_frame_tag :new_schedule,
+            src: new_schedule_path(
+              date: (
+                (
+                  current
+                    .in_time_zone(current_user.time_zone)
+                    .midnight
+                ) + 8.hours
+              ).iso8601,
+              modal_id: "new_schedule_#{current.to_s.gsub(" ", "")}_list"
+            ),
+            loading: :lazy,
+            class: "w-full"
+        %>
+      <% end %>
+    </li>
+
+    <% current = current + 1.day %>
+  <% end %>
+</ul>

@@ -1,0 +1,14 @@
+<%# Renders UI changes when a note banner is updated %>
+
+<%= turbo_stream.replace :banner_image do %>
+  <%= render "notes/banners/image", note: @note %>
+<% end %>
+
+<%= turbo_stream.append :live_preview_refreshes do %>
+  <%# forces the client JS to refesh the live preview %>
+  <div class="hidden" data-note--edit-target="refreshLivePreview"></div>
+<% end %>
+
+<%= turbo_stream.append :modal_events do %>
+  <div class="hidden" data-application-target="closeModal"></div>
+<% end %>

@@ -1,0 +1,38 @@
+<%# Renders the form that allows a user to send a note to themselves %>
+
+<%= turbo_frame_tag :new_external_note_email do %>
+  <div data-controller="external--note--email">
+    <h3 class="font-semibold text-xl mb-4">Email Note</h3>
+
+    <%=
+      form_with model: @external_note_email,
+        url: external_note_emails_path(@note),
+        method: :post,
+        data: {action: "submit->external--note--email#submit"} do |f|
+    %>
+      <%=
+        f.hidden_field :fill_in_values,
+          value: "",
+          data: {external__note__email_target: :fillInValues}
+      %>
+
+      <div class="flex items-start">
+        <div>
+          <%=
+            f.text_field :email,
+              placeholder: "email@notespro.church",
+              class: "inline-block bg-input rounded-sm appearance-none text-md px-2 py-1 mr-2 min-w-[240px]"
+          %>
+
+          <%=
+            render "application/forms/field_errors",
+              entity: @external_note_email,
+              field: :email
+          %>
+        </div>
+
+        <%= f.submit "Send", class: "inline-block px-4 py-1 rounded bg-primary text-fill" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

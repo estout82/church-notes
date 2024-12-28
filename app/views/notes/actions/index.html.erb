@@ -1,0 +1,39 @@
+<%= render "notes/header" %>
+
+<div class="flex flex-col-reverse items-stretch md:flex-row">
+  <div class="mb-8 rounded-md bg-fill p-4 w-full">
+    <div class="mb-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-bold">All Follow Ups</h2>
+        <p class="text-sm text-slate-500">Follow Ups are sent automatically after a note taker completes a note.</p>
+      </div>
+
+      <button
+        data-application-target="modalButton"
+        data-modal-id="new_action"
+        data-modal-action="open"
+        class="text-fill bg-primary px-4 py-2 rounded text-sm font-bold text-center"
+      >
+        Create a Follow Up
+      </button>
+    </div>
+
+    <ul id="follow_ups" class="flex flex-col gap-2 divide-y divide-slate-100">
+      <% @follow_ups.find_each do |follow_up| %>
+        <%= render "notes/actions/follow_up_row", follow_up: %>
+      <% end %>
+
+      <li class="hidden only:block py-6">
+        <p class="italic text-slate-400 text-center">No follow ups for this note</p>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<%= render "application/modal", modal_id: "new_action" do %>
+  <%=
+    turbo_frame_tag :new_action,
+      src: new_note_action_path(@note),
+      loading: :lazy
+  %>
+<% end %>

@@ -1,0 +1,11 @@
+<% nested ||= false %>
+
+<% if style == "unordered" %>
+  <ul style="<%= nested ?  "margin: 0;" : "margin: 12px 0;" %> margin-left: 25px; padding:0; font-size:16px; line-height:22px;" align="left" type="disc">
+    <%= yield %>
+  </ul>
+<% else %>
+  <ol style="<%= nested ?  "margin: 0;" : "margin: 12px 0;" %> margin-left: 25px; padding:0; font-size:16px; line-height:22px;" align="left" type="1">
+    <%= yield %>
+  </ol>
+<% end %>

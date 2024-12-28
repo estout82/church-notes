@@ -1,0 +1,54 @@
+<%= render "notes/header" %>
+
+<div data-controller="note--analytics" class="mb-8 rounded-md bg-fill p-4">
+  <h2 class="font-semibold text-3xl mb-4">
+    Views
+  </h2>
+
+  <div>
+
+    <div>
+      <div
+        data-note--analytics-target="viewsChartData"
+        data-values="<%= @note_views_data.values.to_json %>"
+        data-labels="<%= @note_views_data.labels.to_json %>"
+      ></div>
+
+      <canvas data-note--analytics-target="viewsChart" class="max-h-[300px] w-full"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<div class="mb-8 rounded-md bg-fill p-4">
+  <ul role="list">
+    <% if @people_data.present? %>
+
+      <% @people_data.each do |person| %>
+        <%= render "notes/analytics/person", person: %>
+      <% end %>
+
+    <% else %>
+
+      <div id="no_people" class="flex justify-center my-8">
+        <div class="text-center border-2 border-dashed border-gray-300 px-40 py-8 rounded">
+          <p class="text-xl text-muted font-semibold">No one has viewed this note</p>
+          <p class="text-muted">Try sharing the link, you can copy it link below.</p>
+          <div class="mt-6">
+            <button
+              data-controller="clipboard"
+              data-action="click->clipboard#copy"
+              data-text="<%= external_note_url(@note.alt_id) %>"
+              data-start-text="Copy Note Link"
+              type="button"
+              class="inline-flex items-center rounded border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/70 focus:ring-offset-2"
+            >
+              Copy Note Link
+            </button>
+          </div>
+        </div>
+      </div>
+
+    <% end %>
+  </ul>
+</div>

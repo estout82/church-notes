@@ -1,0 +1,165 @@
+<%#
+  Renders a user for the organization users page
+
+  user: the user
+%>
+
+<li id="<%= dom_id user %>" class="relative md:grid grid-cols-12 mb-4">
+  <div class="col-span-2">
+    <%= user.full_name %>
+  </div>
+
+  <div class="mt-1 md:mt-0 text-muted md:text-initial col-span-2">
+    <%= user.email %>
+  </div>
+
+  <%# activity section %>
+  <div class="col-span-2 flex flex-col items-start mt-1 md:mt-0">
+    <span class="bg-green-200 text-green-700 rounded-full px-4 py-1 text-sm">
+      Active
+    </span>
+
+    <% if user.last_interaction.present? %>
+      <span class="last-activity text-muted mt-1 md:mt-2 text-xs ml-2">
+        Last seen <%=
+          distance_of_time_in_words(
+            Time
+              .current
+              .in_time_zone(current_user.time_zone),
+            user
+              .last_interaction
+              .created_at
+          )
+        %> ago
+      </span>
+    <% else %>
+      <span class="text-muted mt-2 text-xs ml-2">
+        No activity
+      </span>
+    <% end %>
+  </div>
+
+  <%# account membership section %>
+  <div class="mt-2 md:mt-0 col-span-4 flex flex-wrap items-start">
+    <% if user.user_account_members.present? %>
+      <div id="<%= "user_#{user.id}_members" %>" class="flex flex-wrap">
+        <% user.user_account_members.each do |member| %>
+          <%= render "organization/users/account_members/account_member", member: %>
+        <% end %>
+      </div>
+    <% else %>
+      <div>
+        <p class="flex items-center">
+          <i class="text-yellow-400 mr-1" title="This user won't be able to log in until you add them to an account.">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+            </svg>
+          </i>
+
+          <span class="text-muted text-sm">No accounts</span>
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+  <%# dot menu %>
+  <div class="absolute md:block top-0 right-0 col-span-2 flex justify-end">
+    <div
+      data-controller="dropdown"
+      data-action="click@document->dropdown#handleDocumentClick"
+      class="relative"
+    >
+      <button
+        data-action="click->dropdown#toggle"
+        data-dropdown-target="selection"
+        class="w-6 h-6 inline-block text-muted mr-2"
+      >
+        <i>
+          <%= render "application/icons/dots" %>
+        </i>
+      </button>
+
+      <div class="hidden right-4 absolute px-4 py-1 w-40 bg-fill rounded shadow-box z-10" data-dropdown-target="panel">
+        <ul class="user-three-dot-panel space-y-2">
+
+          <%# edit button %>
+          <li class="text-muted">
+            <button
+              data-application-target="modalButton"
+              data-modal-id="<%= "edit_" + dom_id(user) %>"
+              data-modal-action="open"
+            >
+              Edit
+            </button>
+          </li>
+
+          <%# add to account button %>
+          <li class="text-muted">
+            <button
+              data-application-target="modalButton"
+              data-modal-action="open"
+              data-modal-id="<%= "new_user_account_member_user_" + user.id.to_s %>"
+            >
+              Add to Account
+            </button>
+          </li>
+
+          <%# delete button %>
+          <li class="text-muted">
+            <li class="text-muted">
+              <button
+                data-application-target="modalButton"
+                data-modal-id="delete_user_<%= user.id %>_confirm"
+                data-modal-action="open"
+                class="text-error"
+              >
+                Delete
+              </button>
+            </li>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</li>
+
+<%= render "application/modal", modal_id: "new_user_account_member_user_" + user.id.to_s do %>
+  <%=
+    turbo_frame_tag :new_user_account_member,
+      src: new_organization_user_account_member_path(user),
+      loading: :lazy
+  %>
+<% end %>
+
+<%= render "application/modal", modal_id: "edit_" + dom_id(user) do %>
+  <%=
+    turbo_frame_tag "edit_" + dom_id(user),
+      src: edit_organization_user_path(user),
+      loading: :lazy
+  %>
+<% end %>
+
+<%= render "application/modal", modal_id: "delete_user_#{user.id}_confirm" do %>
+  <h3 class="font-semibold text-xl">
+    Are you sure?
+  </h3>
+  <p>Deleting a user cannot be undone.</p>
+  <div class="flex items-center justify-center mt-4">
+    <%=
+      button_to "Delete",
+        organization_user_path(user),
+        method: :delete,
+        class: "px-2 py-1 bg-error rounded text-fill"
+    %>
+
+    <button
+      data-application-target="modalButton"
+      data-modal-id="delete_user_<%= user.id %>_confirm"
+      data-modal-action="close"
+      class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+    >
+      Cancel
+    </button>
+  </div>
+<% end %>

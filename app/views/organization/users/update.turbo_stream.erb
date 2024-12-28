@@ -1,0 +1,13 @@
+<%# Renders UI changes when a user us updated %>
+
+<%= turbo_stream.replace dom_id(@user) do %>
+  <%= render "organization/users/user", user: @user %>
+<% end %>
+
+<%=
+  render "toast",
+    message: "Updated #{@user.first_name} successfully",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

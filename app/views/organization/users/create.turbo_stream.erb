@@ -1,0 +1,13 @@
+<%# Renders UI changes when a user is created %>
+
+<%= turbo_stream.append :users do %>
+  <%= render "organization/users/user", user: @user %>
+<% end %>
+
+<%=
+  render "toast",
+    message: "Created user successfully",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

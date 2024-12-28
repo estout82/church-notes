@@ -1,0 +1,42 @@
+<%= @meta = capture do %>
+  <meta name="robots" content="noindex">
+<% end %>
+
+<div class="w-full">
+  <div class="flex flex-col-reverse rounded-lg">
+    <div class="flex justify-center items-start mb-8 md:mb-0">
+      <div class="bg-fill p-8 mt-8 md:mt-64 rounded-md flex flex-col items-center">
+        <h3 class="text-3xl text-center font-semibold">Login to Your Account</h3>
+
+        <% if true %>
+          <p class="mt-4 text-center max-w-sm">
+            Thanks, we'll set up your trial ASAP. Check your email soon. Reach out to hello@notespro.church if you have any questions.
+          </p>
+        <% end %>
+
+        <%= form_with url: login_path, class: "flex flex-col mt-4 w-96", method: :post do |f| %>
+          <%= f.label :email, "Email", class: "mt-4" %>
+          <%= f.text_field :email, class: "bg-input rounded-sm appearance-none text-md p-2" %>
+          <%= f.label :password, "Password", class: "mt-4" %>
+          <%= f.password_field :password, class: "bg-input rounded-sm appearance-none text-md p-2" %>
+          <%= f.submit "Login", class: "bg-primary text-fill text-lg rounded mt-4 hover:cursor-pointer hover:opacity-90 px-4 py-1" %>
+        <% end %>
+
+        <p class="mt-2">
+          <%=
+            link_to "Reset password",
+              new_password_reset_path,
+              class: "text-muted font-bold"
+          %>
+        </p>
+
+        <div class="mt-4">
+          <p>
+            New to Notes Pro?
+            <%= link_to 'Email us to get started.', "mailto:hello@notespro.church?subject=New+Sign+Up", class: "font-bold text-primary" %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

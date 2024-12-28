@@ -1,0 +1,48 @@
+<%# Renders the form to add a user to an account %>
+
+<%= turbo_frame_tag :new_member do %>
+
+  <div class="min-w-[300px] md:min-w-[500px]">
+    <h3 class="text-xl font-semibold">Add User</h3>
+
+    <%= form_with url: account_members_path(@account), model: @form, class: "mt-4" do |f| %>
+
+      <div class="mb-3">
+        <%= render "application/forms/field_errors", entity: @form, field: :base %>
+      </div>
+
+      <div class="flex flex-col mb-4">
+        <%= f.label "First Name", for: :first_name %>
+        <%= f.text_field :first_name, class: "px-2 py-1 bg-input rounded" %>
+        <%= render "application/forms/field_errors", entity: @form, field: :first_name %>
+      </div>
+
+      <div class="flex flex-col mb-4">
+        <%= f.label "Last Name", for: :last_name %>
+        <%= f.text_field :last_name, class: "px-2 py-1 bg-input rounded" %>
+        <%= render "application/forms/field_errors", entity: @form, field: :last_name %>
+      </div>
+
+      <div class="flex flex-col mb-4">
+        <%= f.label "Email", for: :email %>
+        <%= f.text_field :email, class: "px-2 py-1 bg-input rounded" %>
+        <%= render "application/forms/field_errors", entity: @form, field: :email %>
+      </div>
+
+      <div class="flex justify-center">
+        <%= f.submit "Create", class: "text-fill px-4 py-1 bg-primary rounded" %>
+
+        <button
+          data-application-target="modalButton"
+          data-modal-action="close"
+          data-modal-id="new_member"
+          class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+        >
+          Cancel
+        </button>
+      </div>
+
+    <% end %>
+  </div>
+
+<% end %>

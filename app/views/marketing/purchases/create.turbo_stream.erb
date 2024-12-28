@@ -1,0 +1,14 @@
+<%= turbo_stream.replace :sign_up do %>
+  <%= turbo_frame_tag :sign_up do %>
+    <p class="mb-2 mt-4">Thank you, <%= @sign_up.first_name.capitalize %>!</p>
+    <p>
+      We'll email you at <%= @sign_up.email %> to get you set up. If you have any questions, email us at <%= link_to "hello@notespro.church", "mailto:hello@notespro.church", class: "font-bold text-primary" %>
+    </p>
+  <% end %>
+
+  <div
+    class="hidden"
+    data-marketing--application-target="redirect"
+    data-href="<%= @stripe_session.url %>"
+  ></div>
+<% end %>

@@ -1,0 +1,11 @@
+<%# Renders UI changes when a user is deleted %>
+
+<%= turbo_stream.remove dom_id(@user) %>
+
+<%=
+  render "toast",
+    message: "Deleted user successfully",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

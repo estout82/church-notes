@@ -1,0 +1,15 @@
+<turbo-frame id="search-notes">
+  <div div class="p-2">
+    <% if @notes.size > 0 %>
+      <% @notes.each do |note| %>
+        <ul>
+          <li>
+            <p><%= note.title %></p>
+          </li>
+        </ul>
+      <% end %>
+    <% else %>
+      <p>No results</p>
+    <% end %>
+  </div>
+</turbo-frame>

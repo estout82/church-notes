@@ -1,0 +1,44 @@
+<%# Form to edit roles for a user account member in account settings page %>
+
+<% presenter = UserAccountMemberPresenter.new @member %>
+
+<%= turbo_frame_tag "change_role_member_#{@member.id}" do %>
+  <div>
+    <h3 class="text-lg font-semibold">Edit Roles</h3>
+
+    <%=
+      form_with url: account_member_roles_path(@account, @member),
+        model: @member,
+        method: :patch do |f|
+    %>
+
+      <div class="mt-2">
+        <div class="space-x-2 -ml-2">
+          <%=
+            f.collection_check_boxes :role_names,
+              presenter.eligible_roles,
+              :name,
+              :display_name
+          %>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <%=
+          f.submit "Save",
+            class: "rounded bg-primary text-fill px-4 py-1 text-sm mr-2"
+        %>
+
+        <button
+          data-application-target="modalButton"
+          data-modal-id="change_role_member_<%= @member.id %>"
+          data-modal-action="close"
+          class="px-4 py-1 text-fill bg-muted rounded opacity-60 text-sm"
+        >
+          Cancel
+        </button>
+      </div>
+
+    <% end %>
+  </div>
+<% end %>

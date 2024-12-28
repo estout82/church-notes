@@ -1,0 +1,15 @@
+<%#
+  Renders a row in the sub account list
+
+  sub_account: the sub account to render
+%>
+
+<% presenter = AccountPresenter.new sub_account %>
+
+<li id="<%= dom_id(sub_account) %>" class="w-full mb-4">
+  <div class="relative md:grid grid-cols-12">
+    <div class="col-span-4">
+      <%= sub_account.name %>
+    </div>
+  </div>
+</li>

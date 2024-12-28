@@ -1,0 +1,71 @@
+<%#
+  Renders the account selector dropdown for desktop UI
+%>
+
+<% presenter = Nav::AccountSelectorPresenter.new user: current_user %>
+
+<div
+  id="account_selector"
+  class="relative"
+  data-controller="dropdown"
+  data-action="click@document->dropdown#handleDocumentClick"
+>
+  <div
+    data-dropdown-target="selection"
+    data-action="click->dropdown#toggle"
+    class="relative pr-6 rounded border border-muted/30 text-primary px-2 py-1 hover:cursor-pointer font-bold text-left hover:bg-input transition duration-100"
+  >
+    <span id="account-selector-current-account-name" class="text-sm line-clamp-1">
+      <% if current_account.main? %>
+        <%= current_account.organization.name %>
+      <% else %>
+        <%= current_account.name %>
+      <% end %>
+    </span>
+
+    <span class="text-xs text-muted font-normal">
+      <% if current_account.main? %>
+        Main Account
+      <% else %>
+        Sub-Account of <%= current_account.parent_account_name %>
+      <% end %>
+    </span>
+
+    <i class="transform scale-75 w-4 h-4 text-muted -translate-y-[50%] absolute top-[50%] right-2">
+      <%= render "application/icons/chevron_up_down" %>
+    </i>
+  </div>
+
+  <div
+    data-dropdown-target="panel"
+    class="hidden bg-fill text-muted px-5 py-3 absolute transform translate-y-2 shadow-box rounded w-max left-0"
+  >
+
+    <p class="text-black font-semibold mb-2 text-sm">Switch Account</p>
+
+    <% if presenter.can_access_main_account? %>
+      <p>
+        <%=
+          link_to current_account.organization.name,
+            root_path(switch_account: current_account.main_account.id),
+            class: "hover:text-primary text-black text-left text-sm block"
+        %>
+
+        <p class="text-xs text-muted">
+          Main Account
+        </p>
+      </p>
+    <% end %>
+
+    <div class="<%= presenter.can_access_main_account? ? "pl-3" : "" %> mt-2">
+      <% presenter.top_level_accounts.each do |account| %>
+        <%=
+          render "layouts/nav/account_selector_account",
+            account:,
+            presenter:
+        %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

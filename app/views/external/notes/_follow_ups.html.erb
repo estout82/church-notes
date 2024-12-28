@@ -1,0 +1,26 @@
+
+<%# Render the current follow up and allow user to respond - optionally share to the discussion %>
+<% current_follow_up = current_user.current_follow_up_for(note:) %>
+
+<% if current_follow_up.present? %>
+  <div class="mx-4 md:mx-0 text-sm p-4 rounded border border-dotted border-slate-300">
+    <p>
+      <%= current_follow_up.content %>
+    </p>
+
+    <ul id="<%= current_follow_up.id %>_responses">
+      <% current_follow_up.messages.each do |message| %>
+        <%= render "external/notes/follow_ups/response", message: message %>
+      <% end %>
+    </ul>
+
+    <div class="mt-2">
+      <%=
+        render "external/notes/follow_ups/add_response",
+          follow_up: current_follow_up
+      %>
+    </div>
+  </div>
+<% end %>
+
+<%# Render past follow ups and the responses - also allow the user to respond %>

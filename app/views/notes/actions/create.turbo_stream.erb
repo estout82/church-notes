@@ -1,0 +1,5 @@
+<%= turbo_stream.append :follow_ups do %>
+  <%= render "notes/actions/follow_up_row", follow_up: @action %>
+<% end %>
+
+<%= render "application/modals/close", all: true %>

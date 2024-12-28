@@ -1,0 +1,13 @@
+<%#
+  Renders an account's logo or a placeholder
+
+  account: An Account
+%>
+
+<% if account.logo.attached? %>
+  <img id="account_<%= account.alt_id %>_logo" src="<%= account.logo.url %>">
+<% else %>
+  <p class="bg-fill/70 text-black">
+    <%= account.name %>
+  </p>
+<% end %>

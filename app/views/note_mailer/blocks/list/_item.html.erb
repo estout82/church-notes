@@ -1,0 +1,16 @@
+<li style="color: black;">
+  <%= raw renderer.render_html(html: list_item["content"]) %>
+
+  <% if list_item["items"].present? %>
+    <%= render "note_mailer/blocks/list/wrapper", style: style, nested: true do %>
+      <% list_item["items"].each do |item| %>
+        <%=
+          render "note_mailer/blocks/list/item",
+            list_item: item,
+            style: style,
+            renderer: renderer
+        %>
+      <% end %>
+    <% end %>
+  <% end %>
+</li>

@@ -1,0 +1,19 @@
+<%# locals: (block:) %>
+
+<%= turbo_frame_tag block.new_message_turbo_frame_id do %>
+  <%=
+    link_to new_message_path(
+      recipient_type: :block,
+      recipient_id: block.message_recipient_id,
+      context_type: :note,
+      context_id: block.note.id
+    ),
+    data: {external__note__response_target: :button},
+    class: "text-primary flex items-center gap-2 overflow-hidden transition-all duration-500 ease-in-out h-0 group-hover:h-8" do
+  %>
+    <i class="w-4 h-4 inline-block">
+      <%= render "application/icons/plus" %>
+    </i>
+    <span>Add Response</span>
+  <% end %>
+<% end %>

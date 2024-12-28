@@ -1,0 +1,182 @@
+<%#
+  Renders the mobile nav menu
+
+  account
+  permissions
+%>
+
+<% presenter = NavPresenter.new account, permissions %>
+
+<nav
+  data-controller="nav--mobile"
+  class="md:hidden"
+  mobile
+>
+  <div class="bg-fill w-full flex justify-between items-center relative z-30 shadow-lg">
+    <div class="bg-fill h-16 flex items-center pl-4">
+      <%= link_to root_path do %>
+        <%= image_tag "long_logo.svg", class: "max-w-[100px]" %>
+      <% end %>
+    </div>
+
+    <button
+      data-action="click->nav--mobile#toggle"
+      class="pr-4 hover:cursor-pointer"
+    >
+      <i class="" data-nav--mobile-target="bars">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </i>
+
+      <i class="hidden" data-nav--mobile-target="x">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </i>
+    </button>
+  </div>
+
+  <div class="relative">
+    <div
+      data-nav--mobile-target="panel"
+      data-transition-enter="transition ease-out duration-20"
+      data-transition-enter-start="transform opacity-50 translate-y-[-10rem]"
+      data-transition-enter-end="transform opacity-100 translate-y-0"
+      data-transition-leave="transition ease-in duration-75"
+      data-transition-leave-start="transform opacity-100 scale-100"
+      data-transition-leave-end="transform opacity-0 scale-95"
+      class="hidden flex flex-col w-full justify-between absolute z-40 bg-fill px-4 pb-4 shadow-lg"
+    >
+      <% if presenter.show_subaccount_selector? %>
+        <div class="mb-4">
+          <%= render "layouts/nav/account_selector" %>
+        </div>
+      <% end %>
+
+      <% if presenter.show_notes_tab? %>
+        <%= link_to notes_path, class: "block mb-2 flex items-center #{nav_item_class notes_path}" do %>
+          <i class="mr-3">
+            <%= render "application/icons/note" %>
+          </i>
+
+          Notes
+        <% end %>
+      <% end %>
+
+      <% if presenter.show_schedule_tab? %>
+        <%= link_to schedules_path, class: "block mb-2 flex items-center #{nav_item_class notes_path}" do %>
+          <i class="mr-3">
+            <%= render "application/icons/calendar" %>
+          </i>
+
+          Schedule
+        <% end %>
+      <% end %>
+
+      <%# account settings %>
+      <% if presenter.show_account_settings? %>
+        <%=
+          link_to account_settings_path(current_account),
+            class: "block mb-2 flex items-center #{nav_item_class :account_settings}" do
+        %>
+          <i class="mr-3">
+            <%= render "application/icons/cog" %>
+          </i>
+
+          <% if current_account.organization.multisite? %>
+            <span class="flex flex-col">
+              <span>Settings</span>
+              <span class="text-xs"><%= current_account.name %></span>
+            </span>
+          <% else %>
+            Account Settings
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if presenter.show_account_users? %>
+        <%=
+          link_to account_members_path(current_account),
+            class: "block mb-2 flex items-center #{nav_item_class :account_members}" do
+        %>
+          <i class="mr-3">
+            <%= render "application/icons/users" %>
+          </i>
+          <span class="flex flex-col">
+            <span>Users</span>
+
+            <% if current_account.organization.multisite? %>
+              <span class="text-xs"><%= current_account.name %></span>
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <%# organization level settings %>
+      <p class="font-semibold text-sm text-primary mt-4">
+        Organization Settings
+      </p>
+      <p class="text-xs text-muted mb-2">
+        Settings that apply across <%= @application_presenter.organization_name %>
+      </p>
+
+      <% if presenter.show_organization_settings? %>
+        <%=
+          link_to organization_settings_path,
+            class: "block mb-2 flex #{nav_item_class :organization_settings}" do
+        %>
+          <i class="mr-3">
+            <%= render "application/icons/cog" %>
+          </i>
+          Settings
+        <% end %>
+      <% end %>
+
+      <% if presenter.show_organization_billing? %>
+        <%=
+          link_to organization_billing_path,
+            class: "block mb-2 flex #{nav_item_class :organization_billing}" do
+        %>
+          <i class="mr-3">
+            <%= render "application/icons/credit_card" %>
+          </i>
+          Plan & Billing
+        <% end %>
+      <% end %>
+
+      <% if presenter.show_organization_subaccounts? %>
+        <%=
+          link_to organization_subaccounts_path,
+            class: "block mb-2 flex #{nav_item_class :organization_subaccounts}" do
+        %>
+          <i class="mr-3">
+            <%= render "application/icons/subaccount" %>
+          </i>
+          Sub-Accounts
+        <% end %>
+      <% end %>
+
+      <% if presenter.show_organization_users? %>
+        <%=
+          link_to organization_users_path,
+            class: "block mb-2 flex #{nav_item_class :organization_users}" do
+        %>
+          <i class="mr-3">
+            <%= render "application/icons/users" %>
+          </i>
+          Users
+        <% end %>
+      <% end %>
+
+      <div class="mt-8">
+        <%= link_to logout_path, class: "block text-muted flex" do %>
+          <i class="mr-3">
+            <%= render "application/icons/logout" %>
+          </i>
+          Logout
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>

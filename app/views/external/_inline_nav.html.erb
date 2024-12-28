@@ -1,0 +1,44 @@
+<div id="external_inline_nav">
+  <% if logged_in? %>
+    <div class="flex items-center gap-4">
+      <p class="text-sm">Welcome back, <%= current_user.first_name.capitalize %></p>
+
+      <%=
+        link_to external_me_path,
+          data: {turbo_frame: :_top},
+          class: "block text-slate-700 text-sm inline-flex items-center gap-2" do
+      %>
+        <i class="w-4 h-4">
+          <%= render "application/icons/profile" %>
+        </i>
+        Profile
+      <% end %>
+
+      <%=
+        link_to logout_path(forwarding_url: request.original_url),
+          data: {turbo_frame: :_top},
+          class: "block text-slate-700 text-sm inline-flex items-center gap-2" do
+      %>
+        <i class="w-4 h-4">
+          <%= render "application/icons/logout" %>
+        </i>
+        Logout
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-slate-800 flex items-center flex-wrap gap-1">
+      <button
+        data-action="click->external--nav#open"
+        class="text-primary font-bold"
+      >
+        Sign in
+      </button>
+      <span>or</span>
+      <%=
+        link_to "create an account",
+          new_external_organization_sign_up_path(current_external_organization, interest_url: request.original_url),
+          class: "text-primary font-bold"
+      %>
+    </div>
+  <% end %>
+</div>

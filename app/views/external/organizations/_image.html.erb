@@ -1,0 +1,29 @@
+<%#
+  Render's an organization's image
+
+  organization: the organization to render
+  link: the link to the organization
+%>
+
+<% link ||= "" %>
+
+<% image_content = capture do %>
+  <div class="group w-16 h-16 md:w-12 md:h-12 inline-block bg-slate-400 rounded-full relative overflow-hidden">
+    <% if organization.image.attached? %>
+
+      <img
+        src="<%= organization.image.url %>"
+        class="relative z-10 w-full"
+      >
+
+    <% end %>
+  </div>
+<% end %>
+
+<% if link.present? %>
+  <%= link_to link, class: "hover:opacity-90", data: {turbo_frame: :_top} do %>
+    <%= image_content %>
+  <% end %>
+<% else %>
+  <%= image_content %>
+<% end %>

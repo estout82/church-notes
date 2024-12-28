@@ -1,0 +1,15 @@
+<%#
+  notes
+  account
+%>
+
+<div id="live_note_list" class="md:grid md:grid-cols-3 md:mt-4 md:gap-4 pt-4 md:pt-0 col-span-3">
+  <% notes.each do |note| %>
+    <%=
+      render "notes/external_card",
+        note:,
+        new_tab: true,
+        redirect: account.redirect_note&.id&.to_i == note.id && account.link_redirects?
+    %>
+  <% end %>
+</div>

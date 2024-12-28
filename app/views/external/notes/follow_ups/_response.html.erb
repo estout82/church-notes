@@ -1,0 +1,18 @@
+<%# locals: (message:) %>
+
+<li class="text-slate-100 py-2 flex gap-2">
+  <div>
+    <i class="inline-block text-primary transform -rotate-90">
+      <%= render "application/icons/arrow_uturn_down" %>
+    </i>
+  </div>
+  <div class="grow">
+    <p class="text-slate-700">
+      <%= message.content %>
+    </p>
+
+    <p class="text-sm text-slate-400 italic">
+      <%= message.created_at_summary %>
+    </p>
+  </div>
+</li>

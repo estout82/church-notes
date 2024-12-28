@@ -1,0 +1,77 @@
+<%#
+  Renders edit form for a user account member. Currently, the only
+  editable field is roles.
+%>
+
+<% presenter = UserAccountMemberPresenter.new @member %>
+
+<%= turbo_frame_tag "edit_" + dom_id(@member) do %>
+
+  <h2 class="text-xl font-semibold">Edit Roles</h2>
+
+  <%=
+    form_with model: @member,
+      url: organization_user_account_member_path(@member),
+      method: :patch do |f|
+  %>
+
+    <div class="mt-2">
+
+      <p>
+        <%= f.label :role_names, "Roles", class: "text-muted" %>
+      </p>
+
+      <div class="space-x-2 -ml-2">
+        <%=
+          f.collection_check_boxes :role_names,
+            presenter.eligible_roles,
+            :name,
+            :display_name
+        %>
+      </div>
+
+    </div>
+
+    <div class="mt-4 flex justify-center">
+      <%=
+        f.submit "Save",
+          class: "rounded bg-primary text-fill px-4 py-1 text-sm mr-4"
+      %>
+
+      <button
+        type="button"
+        data-application-target="modalButton"
+        data-modal-id="delete_user_account_member_<%= @member.id %>_confirm"
+        data-modal-action="open"
+        class="rounded bg-error text-fill px-4 py-1 text-sm"
+      >
+        Delete
+      </button>
+    </div>
+
+  <% end %>
+
+  <%= render "application/modal", modal_id: "delete_user_account_member_#{@member.id}_confirm" do %>
+    <h3 class="font-semibold text-xl">
+      Are you sure?
+    </h3>
+    <p>This cannot be undone.</p>
+    <div class="flex items-center justify-center mt-4">
+      <%=
+        button_to "Delete",
+          organization_user_account_member_path(@member),
+          method: :delete,
+          class: "rounded bg-error text-fill px-4 py-1"
+      %>
+
+      <button
+        data-application-target="modalButton"
+        data-modal-id="delete_user_account_member_<%= @member.id %>_confirm"
+        data-modal-action="close"
+        class="ml-2 px-4 py-1 text-fill bg-muted rounded ml-4 opacity-60 text-sm"
+      >
+        Cancel
+      </button>
+    </div>
+  <% end %>
+<% end %>

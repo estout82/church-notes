@@ -1,0 +1,10 @@
+<%# Renders UI changes when the note banner is destroyed %>
+
+<%= turbo_stream.replace :banner_image do %>
+  <div id="banner_image"></div>
+<% end %>
+
+<%= turbo_stream.append :live_preview_refreshes do %>
+  <%# forces the client JS to refesh the live preview %>
+  <div class="hidden" data-note--edit-target="refreshLivePreview"></div>
+<% end %>

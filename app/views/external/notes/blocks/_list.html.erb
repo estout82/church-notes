@@ -1,0 +1,15 @@
+<div data-controller="external--note--response" class="group">
+  <%= render "external/notes/blocks/list/wrapper", style: list.data["style"] do %>
+    <% list.data["items"].each do |item| %>
+      <%=
+        render "external/notes/blocks/list/item",
+          list_item: item,
+          style: list.data["style"]
+      %>
+    <% end %>
+  <% end %>
+
+  <% if list.data["items"].present? %>
+    <%= render "external/notes/blocks/messages", block: list %>
+  <% end %>
+</div>

@@ -1,0 +1,157 @@
+<%#
+  Renders the desktop nav sidebar
+
+  account
+  permissions
+%>
+
+<% presenter = NavPresenter.new account, permissions %>
+
+<nav class="hidden md:flex flex-col bg-fill w-64 px-4 h-screen" desktop>
+  <div class="bg-fill h-16 flex items-center ml-4 text-2xl">
+    <span class="font-bold">notes</span>
+    <span class="text-primary font-bold">pro</span>
+  </div>
+
+  <%# account selector %>
+  <% if presenter.show_subaccount_selector? %>
+    <div id="account_selector">
+      <%= render "layouts/nav/account_selector" %>
+    </div>
+  <% end %>
+
+  <div class="flex flex-col grow justify-between ">
+    <div class="flex flex-col">
+
+      <div class="pl-4">
+        <%= link_to root_path, class: "block mt-4 flex #{nav_item_class :home}" do %>
+          <i class="mr-3">
+            <%= render "application/icons/home" %>
+          </i>
+          Home
+        <% end %>
+
+        <% if presenter.show_notes_tab? %>
+          <%= link_to notes_path, class: "block mt-4 flex #{nav_item_class :notes}" do %>
+            <i class="mr-3">
+              <%= render "application/icons/note" %>
+            </i>
+            Notes
+          <% end %>
+        <% end %>
+
+        <% if presenter.show_schedule_tab? %>
+          <%= link_to schedules_path, class: "block mt-4 flex #{nav_item_class :schedules}" do %>
+            <i class="mr-3">
+              <%= render "application/icons/calendar" %>
+            </i>
+            Schedule
+          <% end %>
+        <% end %>
+
+        <%# account settings %>
+        <% if presenter.show_account_settings? %>
+          <%=
+            link_to account_settings_path(current_account),
+              class: "block mt-4 flex items-center #{nav_item_class :account_settings}" do
+          %>
+            <i class="mr-3">
+              <%= render "application/icons/cog" %>
+            </i>
+
+            <% if current_account.organization.multisite? %>
+              <span class="flex flex-col">
+                <span>Settings</span>
+                <span class="text-xs"><%= current_account.name %></span>
+              </span>
+            <% else %>
+              Account Settings
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if presenter.show_account_users? %>
+          <%=
+            link_to account_members_path(current_account),
+              class: "block mt-4 flex items-center #{nav_item_class :account_members}" do
+          %>
+            <i class="mr-3">
+              <%= render "application/icons/users" %>
+            </i>
+            <span class="flex flex-col">
+              <span>Users</span>
+
+              <% if current_account.organization.multisite? %>
+                <span class="text-xs"><%= current_account.name %></span>
+              <% end %>
+            </span>
+          <% end %>
+        <% end %>
+
+        <% if presenter.show_organization_settings? %>
+          <%# organization level settings %>
+          <p class="font-semibold text-sm text-primary mt-8">
+            Organization Settings
+          </p>
+          <p class="text-xs text-muted">
+            Settings that apply across <%= @application_presenter.organization_name %>
+          </p>
+
+          <%=
+            link_to organization_settings_path,
+              class: "block mt-4 flex #{nav_item_class :organization_settings}" do
+          %>
+            <i class="mr-3">
+              <%= render "application/icons/cog" %>
+            </i>
+            Settings
+          <% end %>
+        <% end %>
+
+        <% if presenter.show_organization_billing? %>
+          <%=
+            link_to organization_billing_path,
+              class: "block mt-4 flex #{nav_item_class :organization_billing}" do
+          %>
+            <i class="mr-3">
+              <%= render "application/icons/credit_card" %>
+            </i>
+            Plan & Billing
+          <% end %>
+        <% end %>
+
+        <% if presenter.show_organization_subaccounts? %>
+          <%=
+            link_to organization_subaccounts_path,
+              class: "block mt-4 flex #{nav_item_class :organization_subaccounts}" do
+          %>
+            <i class="mr-3">
+              <%= render "application/icons/subaccount" %>
+            </i>
+            Sub-Accounts
+          <% end %>
+        <% end %>
+
+        <% if presenter.show_organization_users? %>
+          <%=
+            link_to organization_users_path,
+              class: "block mt-4 flex #{nav_item_class :organization_users}" do
+          %>
+            <i class="mr-3">
+              <%= render "application/icons/users" %>
+            </i>
+            Users
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="mb-8 ml-4">
+      <%= link_to logout_path, class: "block mt-16 text-muted flex" do %>
+        <i class="mr-3">
+          <%= render "application/icons/logout" %>
+        </i>
+        Logout
+      <% end %>
+    </div>
+  </div>
+</nav>

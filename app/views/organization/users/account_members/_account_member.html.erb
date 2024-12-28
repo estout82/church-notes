@@ -1,0 +1,19 @@
+<%# Renders a user account member for the settings page %>
+
+<span
+  id="<%= dom_id member %>"
+  data-application-target="modalButton"
+  data-modal-id="<%= "edit_" + dom_id(member) %>"
+  data-modal-action="open"
+  class="flex px-2 py-1 text-muted bg-input mr-2 rounded mb-1 hover:cursor-pointer"
+>
+  <%= member.account.name %>
+</span>
+
+<%= render "application/modal", modal_id: "edit_" + dom_id(member) do %>
+  <%=
+    turbo_frame_tag "edit_" + dom_id(member),
+      src: edit_organization_user_account_member_path(member.user, member),
+      loading: :lazy
+  %>
+<% end %>

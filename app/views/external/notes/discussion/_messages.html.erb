@@ -1,0 +1,29 @@
+<%# locals: (note:) %>
+
+<%= turbo_stream_from note.discussion_stream_id %>
+
+<div id="<%= note.alt_id %>_messages" class="pt-8 max-w-lg mx-auto">
+  <% if logged_in? %>
+    <%= render "external/notes/discussion/new_message_form", note: %>
+  <% else %>
+    <div class="mb-6">
+      <%=
+        render "external/overlay/sign_in_or_sign_up",
+          authentication_attempt: External::AuthenticationAttempt.new,
+          title: "Join the Discussion",
+          turbo_frame_id: :note_discussion_sign_in,
+          from_note: note
+      %>
+    </div>
+  <% end %>
+
+  <ul id="messages" class="mb-6 divide-y divide-dotted divide-slate-700">
+    <% note.messages.each do |message| %>
+      <%= render "external/notes/message", message: message, note: note %>
+    <% end %>
+
+    <li class="hidden only:block italic text-slate-400">
+      No discussion yet, be the first to add your thoughts.
+    </li>
+  </ul>
+</div>

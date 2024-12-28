@@ -1,0 +1,9 @@
+<%# Renders UI changes when a user account member is updated %>
+
+<%=
+  render "toast",
+    message: "Updated #{@member.user.first_name}'s membership of #{@member.account.name}",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

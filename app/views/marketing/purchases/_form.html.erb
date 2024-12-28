@@ -1,0 +1,57 @@
+<%# locals: (sign_up:) %>
+
+<%=
+  form_with model: sign_up,
+    url: marketing_purchases_path,
+    data: {turbo_frame: :sign_up},
+    class: "mt-8 px-8 flex flex-col gap-4" do |form|
+%>
+  <div>
+    <%=
+      form.text_field :first_name,
+        placeholder: "First name",
+        class: "w-full rounded-md border-2 border-slate-200 bg-white/80 px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"
+    %>
+
+    <%= render "application/forms/field_errors", entity: sign_up, field: :first_name %>
+  </div>
+
+  <div>
+    <%=
+      form.text_field :last_name,
+        placeholder: "Last name",
+        class: "w-full rounded-md border-2 border-slate-200 bg-white/80 px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"
+    %>
+
+    <%= render "application/forms/field_errors", entity: sign_up, field: :last_name %>
+  </div>
+
+  <div>
+    <%=
+      form.text_field :email,
+        placeholder: "Email",
+        class: "w-full rounded-md border-2 border-slate-200 bg-white/80 px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"
+    %>
+
+    <%= render "application/forms/field_errors", entity: sign_up, field: :email %>
+  </div>
+
+  <div>
+    <%=
+      form.select :plan,
+        [["Base", :base], ["Pro", :pro], ["Multi-Site", :multisite]],
+        {},
+        {class: "w-full rounded-md border-2 border-slate-200 bg-white/80 px-4 py-2 outline-none focus:ring focus:ring-2 ring-primary shadow-sm"}
+    %>
+
+    <%= render "application/forms/field_errors", entity: sign_up, field: :plan %>
+  </div>
+
+  <div>
+    <%=
+      render "application/forms/submit_button",
+        form: form,
+        text: "Next"
+    %>
+  </div>
+<% end %>

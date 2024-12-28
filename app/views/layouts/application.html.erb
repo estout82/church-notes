@@ -1,0 +1,119 @@
+<% @application_presenter = ApplicationPresenter.new current_user, current_account %>
+
+<!DOCTYPE html>
+<html>
+  <head id="head">
+    <title>NotesPro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= favicon_link_tag asset_path("favicon.svg") %>
+
+    <%# import open sans %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <%=
+      stylesheet_link_tag "application.build",
+        "data-turbo-track": "reload"
+    %>
+
+    <%=
+      javascript_include_tag "application.build",
+        "data-turbo-track": "reload",
+        defer: true
+    %>
+
+    <%= favicon_link_tag asset_path("favicon.svg") %>
+
+    <script defer data-domain="app.notespro.church" src="https://plausible.io/js/script.js"></script>
+
+    <%= @extra_head_content %>
+  </head>
+
+  <body
+    data-controller="application"
+    data-open-modal-id=""
+    data-current-user-id="<%= current_user.id %>"
+    data-current-user-name="<%= current_user.full_name %>"
+    data-current-user-email="<%= current_user.email %>"
+    data-user-time-zone="<%= current_user.time_zone %>"
+    class="w-screen h-screen bg-secondary md:flex font-sans"
+  >
+    <div id="modal_events">
+      <%# modal events (eg close modal) are appended here by turbo streams %>
+    </div>
+
+    <%= render "application/tailwind_classes" %>
+
+    <%# flash messages %>
+    <div
+      id="flash"
+      data-controller="toast"
+      class="absolute top-0 left-0 w-screen z-40 flex flex-col items-center space-y-2 pointer-events-none"
+    >
+      <% if flash[:error] %>
+        <div class="bg-error mt-8 p-4 rounded shadow-lg">
+          <p class="text-fill">
+            <%= flash[:error] %>
+          </p>
+        </div>
+      <% end %>
+
+      <% if flash[:success] %>
+        <div class="bg-success mt-8 p-4 rounded shadow-lg">
+          <p class="text-fill">
+            <%= flash[:success] %>
+          </p>
+        </div>
+      <% end %>
+
+      <% if flash[:info] %>
+        <div class="bg-info mt-8 p-4 rounded shadow-lg">
+          <p class="text-fill">
+            <%= flash[:info] %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <%=
+      render "layouts/desktop_nav",
+        account: current_account,
+        permissions: current_user.permissions
+    %>
+
+    <%=
+      render "layouts/mobile_nav",
+        account: current_account,
+        permissions: current_user.permissions
+    %>
+
+    <div class="flex-1 flex flex-col">
+
+      <div
+        style="box-shadow: 10px 10px 10px rgba(0, 0, 0, .1);"
+        class="hidden md:flex bg-fill w-full h-16 flex justify-between px-5 items-center z-10"
+      >
+
+        <p class="ml-4 text-muted">
+          <%=
+            link_to @application_presenter.organization_name,
+              external_organization_url(current_account.organization.encoded_name),
+              target: :_blank,
+              class: "hover:opacity-80"
+          %>
+        </p>
+
+      </div>
+
+      <div class="flex-1 md:px-8 py-8 overflow-y-scroll">
+        <%= yield %>
+      </div>
+    </div>
+
+    <%= render "application/clarity" %>
+  </body>
+</html>

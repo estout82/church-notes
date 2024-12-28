@@ -1,0 +1,7 @@
+<%# locals: (block:) %>
+
+<% if logged_in? %>
+  <%= render "external/notes/blocks/add_response_button", block: block %>
+<% end %>
+
+<div class="comment-border border-slate-200 rounded-md px-2 py-1" id="<%= block.message_list_id %>"><% block.messages.each do |message| %><%= render "external/notes/blocks/message", message: %><% end %></div>

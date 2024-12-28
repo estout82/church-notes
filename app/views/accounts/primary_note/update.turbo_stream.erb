@@ -1,0 +1,3 @@
+<%= turbo_stream.replace_all "#live_note_list" do %>
+  <%= render "home/live_note_list", notes: @live_notes, account: @account %>
+<% end %>

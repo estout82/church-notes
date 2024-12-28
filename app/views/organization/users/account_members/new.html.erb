@@ -1,0 +1,53 @@
+<%# Renders the form to add a user to an account %>
+
+<% presenter = UserAccountMemberPresenter.new @member %>
+
+<%= turbo_frame_tag :new_user_account_member do %>
+  <div class="md:min-w-[500px]">
+    <h3 class="font-semibold text-xl">Add to Account</h3>
+
+    <%=
+      form_with model: @member,
+        url: organization_user_account_members_path(@member.user),
+        method: :post do |f|
+    %>
+
+      <div class="mb-4">
+        <%= f.label :user_id, "User", class: "text-muted" %>
+        <%= f.hidden_field :user_id, value: @member.user&.id %>
+
+        <p>
+          <%= @member.user&.full_name %>
+        </p>
+      </div>
+
+      <div>
+        <%= f.label :account_id, "Account", class: "text-muted" %>
+
+        <div>
+          <%=
+            f.collection_select :account_id,
+              presenter.eligible_accounts,
+              :id,
+              :name
+          %>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <%= f.submit "Save", class: "rounded px-4 py-1 rounded bg-primary text-fill" %>
+
+        <button
+          data-application-target="modalButton"
+          data-modal-id="<%= "new_user_account_member_user_" + @member.user.id.to_s %>"
+          data-modal-action="close"
+          class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+        >
+          Cancel
+        </button>
+      </div>
+
+    <% end %>
+
+  </div>
+<% end %>

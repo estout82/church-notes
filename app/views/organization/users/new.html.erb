@@ -1,0 +1,46 @@
+<%#
+  Renders the form to directly create a new user. This should usually only be on the main account.
+%>
+
+<%= turbo_frame_tag :new_user do %>
+
+  <div class="min-w-[300px] md:min-w-[500px]">
+    <h3 class="text-xl font-semibold">Add User</h3>
+
+    <%= form_with url: organization_users_path, model: @user, class: "mt-4" do |f| %>
+
+      <div class="flex flex-col mb-4">
+        <%= f.label "First Name", for: :first_name %>
+        <%= f.text_field :first_name, class: "px-2 py-1 bg-input rounded" %>
+        <%= render "application/forms/field_errors", entity: @user, field: :first_name %>
+      </div>
+
+      <div class="flex flex-col mb-4">
+        <%= f.label "Last Name", for: :last_name %>
+        <%= f.text_field :last_name, class: "px-2 py-1 bg-input rounded" %>
+        <%= render "application/forms/field_errors", entity: @user, field: :last_name %>
+      </div>
+
+      <div class="flex flex-col mb-4">
+        <%= f.label "Email", for: :email %>
+        <%= f.text_field :email, class: "px-2 py-1 bg-input rounded" %>
+        <%= render "application/forms/field_errors", entity: @user, field: :email_name %>
+      </div>
+
+      <div class="flex justify-center">
+        <%= f.submit class: "text-fill px-4 py-1 bg-primary rounded" %>
+
+        <button
+          data-application-target="modalButton"
+          data-modal-action="close"
+          data-modal-id="new_user"
+          class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+        >
+          Cancel
+        </button>
+      </div>
+
+    <% end %>
+  </div>
+
+<% end %>

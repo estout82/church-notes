@@ -1,0 +1,21 @@
+<%#
+  renders the image tag for a note banner
+
+  note: the note to render banner image for
+%>
+
+<% if note.banner.attached? %>
+    <%=
+      image_tag note.banner.url,
+        id: :banner_image,
+        class: "rounded-md shadow-md my-2"
+    %>
+<% elsif note.banner_url.present? %>
+  <%=
+    image_tag note.banner_url,
+      id: :banner_image,
+      class: "rounded-md shadow-md my-2"
+  %>
+<% else %>
+  <div id="banner_image"></div>
+<% end %>

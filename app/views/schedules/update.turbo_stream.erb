@@ -1,0 +1,12 @@
+<%# Renders UI updates when a schedule is updated %>
+
+<%# TODO actually update the schedule cells %>
+
+<%=
+  render "toast",
+    message: "Updated schedule successfully",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>
+<%= render "application/events/refresh_page" %>

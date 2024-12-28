@@ -1,0 +1,123 @@
+<%= turbo_frame_tag :new_schedule do %>
+
+  <h3 class="text-2xl">New Schedule</h3>
+
+  <%=
+    form_with model: @schedule,
+      url: schedules_path,
+      method: :post,
+      class: "mt-4" do |f|
+  %>
+
+    <div>
+      <%= f.label :note_id, "Note", class: "inline-block text-muted" %>
+      <%= render "application/forms/note_picker", form: f, attribute: :note_id %>
+      <%=
+        render "application/form_field_errors",
+        errors: @schedule.errors.full_messages_for(:note_id)
+      %>
+    </div>
+
+    <div class="grid grid-cols-2">
+      <div class="mr-2">
+        <%=
+          f.label :start_date,
+            "Start Date",
+            class: "inline-block text-muted mt-4"
+        %>
+
+        <%=
+          render "application/forms/date_picker",
+            form: f,
+            attribute: :start_date,
+            value: @schedule
+              .start_at
+              .in_time_zone(current_user.time_zone)
+              .iso8601
+        %>
+      </div>
+
+      <div>
+        <%=
+          f.label :start_time,
+            "Start Time",
+            class: "inline-block text-muted mt-4"
+        %>
+
+        <%=
+          render "application/forms/time_picker",
+            form: f,
+            attribute: :start_time,
+            value: @schedule
+              .start_at
+              .in_time_zone(current_user.time_zone)
+              .iso8601
+        %>
+      </div>
+    </div>
+
+    <%=
+      render "application/form_field_errors",
+        errors: @schedule
+          .errors
+          .full_messages_for(:start_at)
+    %>
+
+    <div class="grid grid-cols-2">
+      <div class="mr-2">
+        <%=
+          f.label :end_date,
+            "End Date",
+            class: "inline-block text-muted mt-4"
+        %>
+
+        <%=
+          render "application/forms/date_picker",
+            form: f,
+            attribute: :end_date,
+            value: @schedule
+              .end_at
+              .in_time_zone(current_user.time_zone)
+              .iso8601
+        %>
+      </div>
+
+      <div>
+        <%=
+          f.label :end_time,
+            "End Time",
+            class: "inline-block text-muted mt-4"
+        %>
+
+        <%=
+          render "application/forms/time_picker",
+            form: f,
+            attribute: :end_time,
+            value: @schedule
+              .end_at
+              .in_time_zone(current_user.time_zone)
+              .iso8601
+        %>
+      </div>
+    </div>
+
+    <%=
+      render "application/form_field_errors",
+        errors: @schedule.errors.full_messages_for(:end_at)
+    %>
+
+    <div class="col-span-2 flex justify-center items-center mt-8">
+      <%= f.submit "Save", class: "text-fill rounded px-4 py-1 bg-primary mr-2" %>
+
+      <button
+        data-application-target="preventDefault modalButton"
+        data-modal-id="<%= @modal_id %>"
+        data-modal-action="close"
+        class="bg-muted rounded px-4 py-1 text-fill"
+      >
+        Cancel
+      </button>
+    </div>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,49 @@
+<%#
+  block
+  autofocus
+  is_top_level
+%>
+
+<% autofocus ||= false %>
+
+<div
+  id="<%= block.guid %>"
+  data-controller="note--editor--block"
+  data-is-block="true"
+  data-block-id="<%= block.guid %>"
+  data-block-type="<%= block.kind %>"
+
+  <% if block.parent.present? %>
+    data-parent-block-id="<%= block.parent.guid %>"
+  <% end %>
+
+  tabindex="<%= is_top_level ? "0" : "1" %>"
+  data-note--editor--block-note--editor-outlet="#note_editor"
+  data-note--editor--block-autofocus-value="<%= autofocus ? "true" : "false" %>"
+  data-note--editor--block-editor-value="<%= block.content_editable? %>"
+  data-note--editor--block-block-id-value="<%= block.guid %>"
+  class="<%= block.kind %> block-content w-full overflow-visible flex-1 outline-none"
+>
+  <% if block.content_editable? %>
+    <div
+      data-block-id="<%= block.guid %>"
+      data-is-block-content="true"
+      data-note--editor--block-target="content"
+      data-action="input->note--editor--block#saveContent focus->note--editor--block#handleFocus blur->note--editor--block#handleBlur keydown->note--editor--block#handleKeyDown focus->note--editor#ensureHasTextNode"
+      class="!outline-none min-h-[2rem]"
+    >
+      <%= raw block.content %>
+    </div>
+  <% end %>
+
+  <% if block.children.present? %>
+    <% block.children.each do |child| %>
+      <%=
+        render "notes/editor/block_contents",
+          block: child,
+          autofocus:,
+          is_top_level: false
+      %>
+    <% end %>
+  <% end %>
+</div>

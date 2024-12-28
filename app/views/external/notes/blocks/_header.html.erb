@@ -1,0 +1,7 @@
+<div data-controller="external--note--response" class="group my-4 md:my-10">
+  <h2 data-action="click->external--note--response#open" class="text-3xl md:text-4xl font-bold align-middle min-h-[2rem]">
+    <%= raw header.data["text"] %>
+  </h2>
+
+  <%= render "external/notes/blocks/messages", block: header %>
+</div>

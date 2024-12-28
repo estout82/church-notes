@@ -1,0 +1,61 @@
+<% presenter = Settings::AccountPresenter.new @organization.main_account, user: current_user %>
+
+<div>
+
+  <aside class="flex justify-between bg-fill items-center p-4 rounded">
+    <h3 class="font-semibold text-xl">Sub-Accounts</h3>
+
+    <div>
+      <button
+        id="new_sub_account_button"
+        data-application-target="modalButton"
+        data-modal-id="new_account"
+        data-modal-action="open"
+        class="inline-flex items-center rounded border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/70 focus:ring-offset-2"
+      >
+        <i class="w-4 h-4 mr-1">
+          <%= render "application/icons/plus" %>
+        </i>
+        <span>
+          New Sub-Account
+        </span>
+      </button>
+    </div>
+  </aside>
+
+  <section class="col-span-3 py-4 px-5 bg-fill rounded-md mt-4">
+    <ul class="mt-4" id="sub_accounts">
+      <%= render partial: "sub_account", collection: @sub_accounts %>
+
+      <li id="subaccounts_empty" class="hidden only:flex justify-center my-8">
+        <div class="text-center border-2 border-dashed border-gray-300 px-8 md:px-40 py-8 rounded">
+          <p class="text-xl text-muted font-semibold">No Sub-Accounts</p>
+          <p class="text-muted">When you add your first subaccount, you'll be able to manage it here.</p>
+          <div class="mt-6">
+            <button
+              data-application-target="modalButton"
+              data-modal-id="new_account"
+              data-modal-action="open"
+              type="button"
+              class="inline-flex items-center rounded border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/70 focus:ring-offset-2"
+            >
+              <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+              </svg>
+              New Sub-Account
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+</div>
+
+<%= render "application/modal", modal_id: :new_account do %>
+  <%=
+    turbo_frame_tag :new_account,
+      src: new_organization_subaccount_path,
+      loading: :lazy
+  %>
+<% end %>

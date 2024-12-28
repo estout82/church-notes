@@ -1,0 +1,9 @@
+<%= turbo_stream.append :sub_accounts do %>
+  <%= render "organization/subaccounts/sub_account", sub_account: @account %>
+<% end %>
+
+<%= turbo_stream.replace_all "#account_selector" do %>
+  <%= render "layouts/nav/account_selector" %>
+<% end %>
+
+<%= render "application/modals/close" %>

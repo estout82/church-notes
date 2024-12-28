@@ -1,0 +1,41 @@
+<%= turbo_frame_tag :new_account do %>
+  <p class="font-bold text-xl">New Sub-Account</p>
+
+  <div class="mt-4">
+    <%=
+      form_with model: @subaccount,
+        url: organization_subaccounts_path,
+        method: :post do |f|
+    %>
+      <div class="min-w-[250px]">
+        <%=
+          f.text_field :name,
+            placeholder: "Name",
+            autocomplete: :off,
+            class: "bg-input rounded w-full px-2 py-1"
+        %>
+
+        <% if @subaccount.errors.full_messages_for(:name).present? %>
+          <div class="rounded px-4 py-1 bg-error text-white mt-1 inline-block">
+            <% @subaccount.errors.full_messages_for(:name).each do |message| %>
+              <p>
+                <%= message %>
+              </p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex items-center gap-2 mt-4 justify-stretch">
+        <%= render "application/forms/submit_button", form: f %>
+
+        <%=
+          link_to "Cancel",
+            "",
+            class: "ml-2 bg-muted rounded px-4 py-1 text-fill"
+        %>
+      </div>
+
+    <% end %>
+  </div>
+<% end %>

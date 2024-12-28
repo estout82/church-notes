@@ -1,0 +1,14 @@
+<%#
+  Renders the note editor
+
+  note: A Note
+%>
+
+<%# Using editor.js %>
+<div
+  id="editorjs-target"
+  data-controller="note--simple-editor"
+  data-note--simple-editor-note-id-value="<%= note.alt_id %>"
+  class="h-full px-4 md:px-0"
+>
+</div>

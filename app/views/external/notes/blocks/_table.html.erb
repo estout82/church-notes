@@ -1,0 +1,5 @@
+<table class="w-full rounded border border-concert-600 my-4">
+  <% table.data["content"].each do |row| %>
+    <%= render "external/notes/blocks/table/row", row: row %>
+  <% end %>
+</table>

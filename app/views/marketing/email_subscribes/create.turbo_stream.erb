@@ -1,0 +1,5 @@
+<%= turbo_stream.replace :email_subscribe do %>
+  <%= turbo_frame_tag :email_subscribe do %>
+    <%= render partial: "marketing/subscribe", locals: {success: true}, formats: [:html] %>
+  <% end %>
+<% end %>

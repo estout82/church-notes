@@ -1,0 +1,21 @@
+<h3 class="text-4xl font-bold text-slate-800 text-center mt-16">Demo</h3>
+
+<div class="relative mt-12 max-w-xl mx-auto">
+
+  <div class="mx-8">
+    <style>
+      .notespro-shadow {
+        --notespro-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --notespro-shadow-colored: 0 20px 25px -5px var(--notespro-shadow-color), 0 8px 10px -6px var(--notespro-shadow-color);
+        box-shadow: var(--notespro-ring-offset-shadow, 0 0 #0000), var(--notespro-ring-shadow, 0 0 #0000), var(--notespro-shadow);
+      }
+    </style>
+    <iframe loading="lazy" class="notespro-shadow" style="border-radius: 8px; width: 100%; min-height: 500px; border: 2px solid rgb(148 163 184);" src="https://app.notespro.church/n/yvj06n7cmz?embed=true"></iframe>
+  </div>
+</div>
+
+<div class="px-8 max-w-xl mx-auto">
+  <%= turbo_frame_tag :email_subscribe do %>
+    <%= render "marketing/subscribe" %>
+  <% end %>
+</div>

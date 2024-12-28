@@ -1,0 +1,132 @@
+<%#
+  Renders a user account member for the account users page
+
+  member: A UserAccountMember
+%>
+
+<% user = member.user %>
+
+<li id="<%= dom_id member %>" class="relative md:grid grid-cols-12 mb-4">
+  <div class="col-span-2">
+    <%= user.full_name %>
+  </div>
+
+  <div class="mt-1 md:mt-0 text-muted md:text-initial col-span-2">
+    <%= user.email %>
+  </div>
+
+  <%# activity section %>
+  <div class="col-span-2 flex flex-col items-start mt-1 md:mt-0">
+    <span class="bg-green-200 text-green-700 rounded-full px-4 py-1 text-sm">
+      Active
+    </span>
+
+    <% if user.last_interaction.present? %>
+      <span class="text-muted mt-1 md:mt-2 text-xs ml-2">
+        Last seen
+        <%=
+          distance_of_time_in_words(
+            Time
+              .current
+              .in_time_zone(current_user.time_zone),
+            user
+              .last_interaction
+              .created_at
+          )
+        %> ago
+      </span>
+    <% else %>
+      <span class="text-muted mt-2 text-xs ml-2">
+        No activity
+      </span>
+    <% end %>
+  </div>
+
+  <%# account membership section %>
+  <div class="mt-2 md:mt-0 col-span-4 flex flex-wrap items-start">
+    <%= render "accounts/members/role_list", member: %>
+  </div>
+
+  <%# dot menu %>
+  <div class="absolute md:block top-0 right-0 col-span-2 flex justify-end">
+    <div
+      data-controller="dropdown"
+      data-action="click@document->dropdown#handleDocumentClick"
+      class="relative"
+    >
+      <button
+        data-action="click->dropdown#toggle"
+        data-dropdown-target="selection"
+        class="w-6 h-6 inline-block text-muted mr-2"
+      >
+        <i>
+          <%= render "application/icons/dots" %>
+        </i>
+      </button>
+
+      <div class="hidden right-4 absolute px-4 py-1 w-40 bg-fill rounded shadow-box z-10" data-dropdown-target="panel">
+        <ul class="space-y-2">
+          <li class="text-muted">
+            <button
+              data-application-target="modalButton"
+              data-modal-id="change_role_member_<%= member.id %>"
+              data-modal-action="open"
+            >
+              Change Role
+            </button>
+          </li>
+
+          <li class="text-muted">
+            <button
+              data-application-target="modalButton"
+              data-modal-id="remove_user_<%= user.id %>_confirm"
+              data-modal-action="open"
+              class="text-error"
+            >
+              Remove
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <%# change role modal %>
+  <%= render "application/modal", modal_id: "change_role_member_#{member.id}" do %>
+    <%=
+      turbo_frame_tag "change_role_member_#{member.id}",
+        src: edit_account_member_roles_path(@account, member),
+        loading: :lazy
+    %>
+  <% end %>
+
+  <%# remove modal %>
+  <%= render "application/modal", modal_id: "remove_user_#{user.id}_confirm" do %>
+    <h3 class="font-semibold text-xl">
+      Are you sure?
+    </h3>
+
+    <p>
+      Removing a user cannot be undone.
+    </p>
+
+    <div class="flex items-center justify-center mt-4">
+      <%=
+        button_to "Delete",
+          account_member_path(@account, member),
+          method: :delete,
+          class: "px-2 py-1 bg-error rounded text-fill"
+      %>
+
+      <button
+        data-application-target="modalButton"
+        data-modal-id="remove_user_<%= user.id %>_confirm"
+        data-modal-action="close"
+        class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+      >
+        Cancel
+      </button>
+    </div>
+  <% end %>
+
+</li>

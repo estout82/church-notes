@@ -1,0 +1,62 @@
+<div class="rounded flex flex-col">
+  <div class="">
+    <div class="">
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-2">
+        <li class="relative">
+          <div class="bg-input rounded shadow-box relative p-4 overflow-hidden">
+            <div class="absolute rounded top-0 left-0 w-full h-full">
+              <div class="w-full h-full rounded bg-slate-800/50"></div>
+              <div class="w-full h-full rounded bg-gradient-to-l from-primary/60 to-slate-300"></div>
+            </div>
+
+            <div class="relative z-10">
+              <h5 class="font-semibold text-fill">
+                Sunday Gathering | Love
+              </h5>
+
+              <p class="text-fill text-xs">
+                Jan, 12th
+              </p>
+            </div>
+          </div>
+
+          <%# current redirect indicator: hidden unless this is the primary note %>
+          <div class=" note-redirect-indicator absolute -top-2 -right-2 rounded bg-info text-sm text-fill flex font-bold px-2 py-1 items-center">
+            Redirecting
+            <i class="h-4 w-4 ml-1">
+              <%= render "application/icons/lightning" %>
+            </i>
+          </div>
+        </li>
+
+        <li class="relative">
+          <div class="bg-input rounded shadow-box relative p-4 overflow-hidden">
+            <div class="absolute rounded top-0 left-0 w-full h-full">
+              <div class="w-full h-full rounded bg-slate-800/50"></div>
+              <div class="w-full h-full rounded bg-gradient-to-l from-primary/60 to-slate-300"></div>
+            </div>
+
+            <div class="relative z-10">
+              <h5 class="font-semibold text-fill">
+                Baptism Class | Intro
+              </h5>
+
+              <p class="text-fill text-xs">
+                Jan, 12th
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <span class="bg-primary text-white rounded px-4 py-2 text-center flex items-center justify-center w-full mt-4">
+        <i class="mr-1">
+          <%= render "application/icons/link" %>
+        </i>
+        notes.cornerstone.church
+      </span>
+    </div>
+  </div>
+</div>

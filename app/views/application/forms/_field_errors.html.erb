@@ -1,0 +1,16 @@
+<%#
+  Renders the error messages for a form field
+
+  entity: the entity that is being rendered
+  field: the field name
+%>
+
+<% if entity.errors.full_messages_for(field).present? %>
+  <div class="rounded px-4 py-1 bg-error text-white mt-1 inline-block">
+    <% entity.errors.full_messages_for(field).each do |message| %>
+      <p>
+        <%= message %>
+      </p>
+    <% end %>
+  </div>
+<% end %>

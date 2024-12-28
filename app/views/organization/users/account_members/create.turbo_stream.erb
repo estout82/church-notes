@@ -1,0 +1,13 @@
+<%# Renders UI after a new user account member is created %>
+
+<%= turbo_stream.append "#{dom_id @member.user}_members" do %>
+  <%= render "organization/users/account_members/account_member", member: @member %>
+<% end %>
+
+<%=
+  render "toast",
+    message: "Added #{@member.user.full_name} to #{@member.account.name}",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

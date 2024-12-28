@@ -1,0 +1,158 @@
+<%#
+  Renders a note and it's blocks externally (un-authed users)
+%>
+
+<% presenter = External::NotePresenter.new @note, instance: @instance %>
+
+<%=
+  render "application/meta",
+    description: "#{@note.title}",
+    title: "#{@note.account.organization.name} | NotesPro",
+    og_image: presenter.banner_url || ""
+%>
+
+<div class="bg-black">
+  <%= render "external/overlay" %>
+</div>
+
+<%= turbo_frame_tag :live_preview, class: "w-full flex justify-center items-start" do %>
+  <div
+    data-controller="external--note"
+    data-external--note-fill-in-values-value="<%= @instance&.fill_in_values&.to_json || {} %>"
+    data-external--note-note-instance-id-value="<%= @instance&.id %>"
+    class="w-full md:my-8 md:max-w-5xl md:mx-8 md:px-16 md:pb-4 bg-fill min-w-screen md:min-w-0 min-h-screen md:min-h-0 md:rounded-lg md:shadow-box overflow-hidden"
+  >
+    <% if presenter.has_banner? %>
+      <div class="max-h-[300px] md:-mx-16 relative overflow-hidden">
+        <%=
+          image_tag presenter.banner_url,
+            id: :banner_image,
+            class: "md:rounded-t-md shadow-lg"
+        %>
+
+        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10 bg-black/40">
+          <h1 class="text-3xl md:text-5xl font-bold text-center text-fill max-w-xl mx-auto px-8">
+            <%= @note.title %>
+          </h1>
+        </div>
+
+        <div class="absolute top-0 left-0 w-full z-10 flex justify-between items-start pt-4 px-4">
+          <div class="flex items-center justify-between  mt-4 w-full">
+            <h3 class="text-lg font-bold flex flex-col items-start">
+              <span class="text-white">
+                <%= link_to external_organization_path(current_external_organization.encoded_name), data: {turbo_frame: :_top} do %>
+                  <%= current_external_organization.name %>
+                <% end %>
+              </span>
+
+              <% if !@note.account.main? %>
+                <%= link_to external_account_path(@note.account), data: {turbo_frame: :_top}, class: "-mt-2" do %>
+                  <span class="text-xs font-normal text-slate-200"><%= @note.account.name %></span>
+                <% end %>
+              <% end %>
+            </h3>
+
+            <div class="text-white flex items-center shrink-0">
+              <button
+                data-action="click->external--nav#open"
+                class="text-white ml-2 -mr-2 md:mr-0"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="flex items-center justify-between px-4 mt-4 md:-mx-16">
+        <h3 class="text-lg font-bold flex flex-col items-start">
+          <span>
+            <%= link_to external_organization_path(current_external_organization.encoded_name), data: {turbo_frame: :_top} do %>
+              <%= current_external_organization.name %>
+            <% end %>
+          </span>
+
+          <% if !@note.account.main? %>
+            <span class="text-xs font-normal text-slate-600">
+              <%= link_to external_account_path(@note.account), data: {turbo_frame: :_top}, class: "-mt-2" do %>
+                <%= @note.account.name %>
+              <% end %>
+            </span>
+          <% end %>
+        </h3>
+
+        <div class="text-black flex items-center shrink-0">
+          <button
+            data-action="click->external--nav#open"
+            class="text-black ml-2 -mr-2 md:mr-0"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-8 text-center mb-12">
+        <h1 class="text-4xl font-bold max-w-xl mx-auto px-8">
+          <%= @note.title %>
+        </h1>
+      </div>
+    <% end %>
+
+    <div>
+      <%= render "external/notes/discussion", note: @note %>
+    </div>
+
+    <% if logged_in? %>
+      <div>
+        <%= render "external/notes/follow_ups", note: @note %>
+      </div>
+    <% end %>
+
+    <div data-external--note-target="content" class="px-4 my-12" loading-state>
+      <div class="loading flex items-center justify-center pt-8">
+        <i class="w-6 h-6">
+          <%= render "application/icons/loading" %>
+        </i>
+      </div>
+
+      <%= render "external/notes/content", note: @note %>
+    </div>
+
+    <div class="flex justify-center mt-8">
+      <button
+        data-application-target="modalButton"
+        data-modal-id="email_note"
+        data-modal-action="open"
+        class="px-6 py-2 rounded bg-primary text-fill mr-4"
+      >
+        Email
+      </button>
+
+      <div>
+        <%= render "external/notes/download", note: @note %>
+      </div>
+    </div>
+
+    <%= render "application/modal", modal_id: :email_note do %>
+      <%=
+        turbo_frame_tag :new_external_note_email,
+          src: new_external_note_email_path(@note),
+          loading: :lazy
+      %>
+    <% end %>
+
+    <div class="footer flex flex-col items-center mt-8 md:bg-input py-8 md:-mx-16 -mb-4">
+      <div class="w-40">
+        <%= image_tag "long_logo.svg", class: "mt-1.5" %>
+      </div>
+
+      <p class="text-sm mt-2">
+        Created with <span class="font-bold">NotesPro</span> © <%= Time.current.year %> NotesPro
+      </p>
+    </div>
+  </div>
+<% end %>

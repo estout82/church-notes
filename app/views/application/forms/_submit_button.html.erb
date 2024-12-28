@@ -1,0 +1,21 @@
+<%#
+  Renders a submit button for a form
+
+  form: A Rails form object
+  text: optional
+  classes: optional
+%>
+
+<% text ||= "Save" %>
+
+<p data-controller="forms--loading">
+  <span class="inline-block relative" data-forms--loading-target="container">
+    <%=
+      form.submit text,
+        class: "px-4 py-1 rounded text-fill bg-primary",
+        data: {
+          action: "click->forms--loading#loading"
+        }
+    %>
+  </span>
+</p>

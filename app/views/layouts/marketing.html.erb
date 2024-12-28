@@ -1,0 +1,81 @@
+<% @application_presenter = ApplicationPresenter.new current_user, current_account %>
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head id="head">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= favicon_link_tag asset_path("favicon.svg") %>
+
+    <%# import open sans %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <%=
+      stylesheet_link_tag "application.build",
+        "data-turbo-track": "reload"
+    %>
+
+    <%=
+      javascript_include_tag "marketing.build",
+        "data-turbo-track": "reload",
+        defer: true
+    %>
+
+    <% if Rails.env.production? %>
+      <script defer data-domain="notespro.church" src="https://plausible.io/js/script.js"></script>
+    <% end %>
+
+    <%= @extra_head_content %>
+  </head>
+
+  <body
+    data-controller="application marketing--application"
+    data-open-modal-id=""
+    class="w-screen h-screen font-sans"
+    style="background: url('<%= asset_path "texture.jpg" %>')"
+  >
+    <div class="w-screen h-screen block lg:flex relative">
+      <nav
+        data-marketing--application-target="nav"
+        class="transition duration-200 absolute w-full h-24 left-0 top-0 px-8 lg:px-32 z-10 flex items-center justify-between"
+      >
+        <%= link_to root_path, class: "bg-slate-200/70 flex items-center text-lg md:text-2xl px-2 md:px-4 py-1 md:py-2 rounded border-2 border-slate-300" do %>
+          <span class="font-bold">notes</span>
+          <span class="text-primary font-bold">pro</span>
+        <% end %>
+
+        <div class="flex items-center gap-6">
+          <%= link_to "Pricing", "#pricing", class: "text-slate-500 font-medium" %>
+          <%= link_to "Sign In", login_url, class: "text-slate-500 font-medium" %>
+          <%= link_to "Sign Up", "/#sign_up", class: "text-fill rounded px-4 py-2 bg-primary font-medium block" %>
+        </div>
+      </nav>
+
+      <main
+        data-marketing--application-target="scroll"
+        class="flex-1 h-screen overflow-y-auto lg:overflow-y-scroll pb-16"
+      >
+        <%= yield %>
+
+        <footer class="px-8 lg:px-32 pt-12">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <span class="text-xs text-slate-400">Copyright Eric Stoutenburg <%= Date.current.year %></span>
+            <span class="text-xs text-slate-400">
+              <span>Questions? Email</span>
+              <a class="font-bold text-primary" href="mailto:hello@notespro.church">hello@notespro.church</a>
+            </span>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <% if Rails.env.production? %>
+      <%= render "application/clarity" %>
+    <% end %>
+  </body>
+</html>

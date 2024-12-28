@@ -1,0 +1,62 @@
+<%#
+  required locals:
+  - form : a rails form builder
+  - attribute : the attribute this form field represents
+%>
+
+<% value = (defined? value) ? value : "" %>
+
+<div data-controller="date-picker" class="relative">
+  <%=
+    form.hidden_field attribute,
+    value:,
+    data: {
+      date_picker_target: "hidden"
+    }
+  %>
+  <button
+    data-action="click->date-picker#open"
+    data-date-picker-target="value"
+    class="bg-input block min-h-input rounded-sm appearance-none text-md text-muted p-2 w-full hover:cursor-pointer"
+  >
+  </button>
+  <div
+    data-date-picker-target="panel"
+    class="hidden z-50 bg-fill shadow-box p-2 rounded absolute w-64 mt-2"
+  >
+    <div class="flex justify-center items-center mb-4">
+      <button
+        data-action="click->date-picker#prevMonth"
+        class="mr-4"
+      >
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <p
+        class="font-bold"
+        data-date-picker-target="panelLabel"
+      >
+      </p>
+      <button
+        data-action="click->date-picker#nextMonth"
+        class="ml-4"
+      >
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    </div>
+    </p>
+    <div class="grid grid-cols-7">
+      <p class="text-center">Su</p>
+      <p class="text-center">M</p>
+      <p class="text-center">Tu</p>
+      <p class="text-center">W</p>
+      <p class="text-center">Th</p>
+      <p class="text-center">F</p>
+      <p class="text-center">Sa</p>
+    </div>
+    <div
+      data-date-picker-target="days"
+      class="grid grid-cols-7"
+    >
+    </div>
+  </div>
+</div>

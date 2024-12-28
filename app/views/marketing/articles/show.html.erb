@@ -1,0 +1,179 @@
+<article class="mt-24 md:mt-40 mx-auto max-w-5xl px-8 marketing-article">
+  <p class="flex items-center gap-1 mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="text-primary w-5 h-5">
+      <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+    </svg>
+
+    <%= link_to "Home", root_path, class: "text-primary text-sm" %>
+  </p>
+
+  <%= render "marketing/articles/slugs/#{@slug}" %>
+</article>
+
+<section class="mt-12 pt-6 max-w-5xl mx-auto">
+  <div class="px-8">
+    <h3 class="text-4xl font-bold text-slate-800 mt-16">Sign Up</h3>
+
+    <p class="text-lg font-medium text-slate-600 md:mt-4 mt-2">
+      Level up your discipleship toolbelt today
+    </p>
+
+    <p class="text-sm font-medium text-slate-500 italic mt-2">
+      Questions? Email hello@notespro.church
+    </p>
+
+    <% @sign_up = SignUp.new %>
+  </div>
+
+  <%= turbo_frame_tag :sign_up do %>
+    <%= render "marketing/purchases/form", sign_up: @sign_up %>
+  <% end %>
+</section>
+
+<div id="pricing" class="px-8 lg:px-32 mt-16">
+  <div class="backdrop-blur-lg pb-8 rounded-xl">
+    <ul class="flex items-center justify-center flex-wrap mt-8 gap-8">
+      <li class="w-full sm:w-72 border-2 border-slate-500/30 bg-gradient-to-br from-info/10 to-primary/30 rounded-xl px-4 py-5">
+        <p class="flex flex-col text-center">
+          <span class="text-xl font-semibold text-slate-600">Base</span>
+          <span class="line-through text-sm text-slate-500">$19 per month</span>
+          <span class="text-sm mt-2">
+            <span class="rounded-full text-xs text-fill bg-primary px-2 py-1 mr-2">
+              Early Access
+            </span>
+
+            <span class="text-slate-500">
+              $9 /mo
+            </span>
+          </span>
+        </p>
+
+        <ul class="mt-4 text-sm text-slate-700">
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Unlimited note pages
+            </p>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Schedule notes in advance
+            </p>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Analytics
+            </p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="w-full sm:w-72 border-2 border-slate-500/30 bg-gradient-to-br from-info/10 to-primary/30 rounded-xl px-4 py-5">
+        <p class="flex flex-col text-center">
+          <span class="text-xl font-semibold text-slate-600">Pro</span>
+          <span class="line-through text-sm text-slate-500">$49 per month</span>
+          <span class="text-sm mt-2">
+            <span class="rounded-full text-xs text-fill bg-primary px-2 py-1 mr-2">
+              Early Access
+            </span>
+
+            <span class="text-slate-500">
+              $27 /mo
+            </span>
+          </span>
+        </p>
+
+        <ul class="mt-4 text-sm text-slate-700">
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Everything in Base
+            </p>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Automatic follow-ups
+            </p>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Multi-user
+            </p>
+          </li>
+        </ul>
+      </li>
+
+      <li class="w-full sm:w-72 border-2 border-slate-500/30 bg-gradient-to-br from-info/10 to-primary/30 rounded-xl px-4 py-5">
+        <p class="flex flex-col text-center">
+          <span class="text-xl font-semibold text-slate-600">Multi-Site</span>
+          <span class="line-through text-sm text-slate-500">$149 per month</span>
+          <span class="text-sm mt-2">
+            <span class="rounded-full text-xs text-fill bg-primary px-2 py-1 mr-2">
+              Early Access
+            </span>
+
+            <span class="text-slate-500">
+              $87 /mo
+            </span>
+          </span>
+        </p>
+
+        <ul class="mt-4 text-sm text-slate-700">
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Everything in Starter and Pro
+            </p>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Multi-site with sub-accounts
+            </p>
+          </li>
+          <li class="flex items-center gap-2">
+            <i class="text-green-600">
+              <%= render "application/icons/check" %>
+            </i>
+
+            <p>
+              Rock RMS Integration
+            </p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="px-4 max-w-md mx-auto">
+  <%= render "marketing/subscribe" %>
+</div>

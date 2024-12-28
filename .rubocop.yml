@@ -1,0 +1,44 @@
+Metrics/ClassLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Layout/ArgumentAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+Metrics/ClassLength:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Exclude:
+    - db/migrate/**/*
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - db/migrate/**/*
+Style/SymbolArray:
+  Enabled: false
+Style/GuardClause:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Style/RedundantReturn:
+  Enabled: false

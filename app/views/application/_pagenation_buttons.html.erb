@@ -1,0 +1,18 @@
+<%#
+    page: the current page
+    count: the total num of pages
+    path: base path of link hrefs
+    data: any data attribs on links (used for turbo frames)
+%>
+
+<div class="flex mt-4">
+    <% (1..count).each do |page_num| %>
+        <%= 
+            link_to page_num, "#{path}?page=#{page_num}", 
+            class: "#{ page == page_num ? "bg-primary text-fill" : "bg-fill border-2 border-primary text-primary" } 
+                text-center p-2 font-bold rounded-lg mr-3 flex items-center justify-center
+                w-8 transform hover:cursor-pointer hover:scale-105 hover:bg-opacity-90",
+            data: data
+        %>
+    <% end %>
+</div>

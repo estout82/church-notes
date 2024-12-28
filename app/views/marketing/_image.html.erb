@@ -1,0 +1,23 @@
+<%# locals: (cloudinary_path:, alt:) %>
+
+<% url = "https://res.cloudinary.com/ericstoutenburg/image/upload/f_auto/#{cloudinary_path}" %>
+<% small_url = "https://res.cloudinary.com/ericstoutenburg/image/upload/c_scale,f_auto,w_10/#{cloudinary_path}" %>
+
+<div class="relative max-w-2xl mx-auto w-full aspect-[16/9]">
+  <img
+    alt="<%= alt %>"
+    src="<%= small_url %>"
+    alt="<%= alt %>"
+    class="rounded-lg border-2 border-slate-200 shadow-md absolute inset-0 w-full z-0 aspect-[16/9]"
+  >
+
+  <%# real image %>
+  <img
+    alt="<%= alt %>"
+    loading="lazy"
+    fetchpriority="high"
+    src="<%= url %>"
+    alt="<%= alt %>"
+    class="rounded-lg border-2 border-slate-200 shadow-md mt-8 relative aspect-[16/9]"
+  >
+</div>

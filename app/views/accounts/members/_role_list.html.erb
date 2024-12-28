@@ -1,0 +1,21 @@
+<%#
+  Renders the list of roles for a member
+
+  member: A UserAccountMember
+%>
+
+<div id="<%= "member_#{member.id}_roles" %>" class="flex flex-wrap text-muted">
+
+  <% if member.roles.present? %>
+    <%=
+      member
+        .roles
+        .pluck(:role)
+        .map(&:capitalize)
+        .join(", ")
+    %>
+  <% else %>
+    No role
+  <% end %>
+
+</div>

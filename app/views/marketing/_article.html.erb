@@ -1,0 +1,19 @@
+<%# locals: (title:, slug:, thumbnail:) %>
+
+<div class="hover:opacity-80 hover:scale-105 cursor-pointer transition duration-100 relative overflow-hidden max-w-lg border border-slate-200 bg-slate-100 rounded-lg shadow-md mt-4">
+  <%= link_to article_path(slug), class: "flex flex-col" do %>
+    <img class="absolute inset-0" src="<%= asset_path thumbnail %>">
+
+    <div class="bg-slate-950/50 backdrop-blur-[1px] p-4">
+      <h4 class="font-bold text-lg text-slate-100">
+        <%= title %>
+      </h4>
+
+      <div class="mt-2">
+        <button class="px-4 py-2 rounded bg-primary/90 text-slate-100 font-bold text-sm">
+          Learn More
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>

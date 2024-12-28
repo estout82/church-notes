@@ -1,0 +1,42 @@
+<%#
+  required locals:
+  - form : a rails form builder
+  - attribute : the attribute this form field represents
+%>
+
+<% value = (defined? value) ? value : "" %>
+
+<div data-controller="time-picker">
+  <%=
+    form.hidden_field attribute,
+    value:,
+    data: {
+      time_picker_target: "hidden"
+    }
+  %>
+  <input
+    data-action="input->time-picker#change"
+    data-time-picker-target="hour"
+    class="bg-input w-16 rounded-sm appearance-none text-md p-2"
+  >
+  :
+  <input
+    data-action="input->time-picker#change"
+    data-time-picker-target="minute"
+    class="bg-input w-16 rounded-sm appearance-none text-md p-2"
+  >
+  <div class="inline-block relative">
+    <div class="absolute w-full h-full top-0 left-0 flex justify-end items-center pr-2 pointer-events-none">
+      <i class="text-muted fa fa-caret-down"></i>
+    </div>
+
+    <select
+    data-action="input->time-picker#change"
+    data-time-picker-target="ampm"
+    class="bg-input w-16 rounded-sm appearance-none text-md p-2"
+    >
+      <option value="am">AM</option>
+      <option value="pm">PM</option>
+    </select>
+  </div>
+</div>

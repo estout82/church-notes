@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= @meta %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%# import open sans %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <%= stylesheet_link_tag "application.build", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application.build", "data-turbo-track": "reload", defer: true %>
+
+    <%= favicon_link_tag asset_path("favicon.svg") %>
+
+    <script defer data-domain="app.notespro.church" src="https://plausible.io/js/script.js"></script>
+  </head>
+
+  <body
+    data-controller="application external--nav"
+    data-open-modal-id=""
+    class="w-screen min-h-screen bg-fill flex justify-center font-sans"
+  >
+
+    <div id="modal_events">
+      <%# modal events (eg close modal) are appended here by turbo streams %>
+    </div>
+
+    <%# toast %>
+    <div
+      id="flash"
+      data-controller="toast"
+      class="absolute top-0 left-0 w-screen mt-4 z-50 flex items-center justify-start flex-col pointer-events-none"
+    >
+      <% if flash[:error] %>
+        <div
+          data-toast-target="message"
+          data-transition-enter="transition ease-out duration-100"
+          data-transition-enter-start="transform opacity-0 scale-95"
+          data-transition-enter-end="transform opacity-100 scale-100"
+          data-transition-leave="transition ease-in duration-75"
+          data-transition-leave-start="transform opacity-100 scale-100"
+          data-transition-leave-end="transform opacity-0 scale-95"
+          class="bg-error mt-16 p-4 rounded shadow-md"
+        >
+          <p class="text-fill">
+            <%= flash[:error] %>
+          </p>
+        </div>
+      <% end %>
+
+      <% if flash[:success] %>
+        <div
+          data-toast-target="message"
+          data-transition-enter="transition ease-out duration-100"
+          data-transition-enter-start="transform opacity-0 scale-95"
+          data-transition-enter-end="transform opacity-100 scale-100"
+          data-transition-leave="transition ease-in duration-75"
+          data-transition-leave-start="transform opacity-100 scale-100"
+          data-transition-leave-end="transform opacity-0 scale-95"
+          class="bg-success mt-8 p-4 rounded shadow-lg"
+        >
+          <p class="text-fill">
+            <%= flash[:success] %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <%= yield %>
+
+    <%= render "application/clarity" %>
+  </body>
+</html>

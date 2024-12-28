@@ -1,0 +1,20 @@
+<% presenter = ToastPresenter.new level %>
+
+<%= turbo_stream.append :flash do %>
+  <div
+    data-toast-target="message"
+    data-transition-enter="transition ease-out duration-100"
+    data-transition-enter-start="transform opacity-0 scale-95"
+    data-transition-enter-end="transform opacity-100 scale-100"
+    data-transition-leave="transition ease-in duration-75"
+    data-transition-leave-start="transform opacity-100 scale-100"
+    data-transition-leave-end="transform opacity-0 scale-95"
+    class="<%= presenter.background_color %> hidden mt-8 p-4 rounded shadow-lg bg-opacity-70"
+  >
+    <p class="text-fill">
+      <%= message %>
+    </p>
+  </div>
+<% end %>
+
+<%= render "application/modals/close" %>

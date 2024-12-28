@@ -1,0 +1,57 @@
+<%#
+  Renders a row on the schedule calendar. Contains the cells and
+  the row's overlay which has the actual schedule buttons
+
+  start_at: start DateTime of the row (user TZ)
+  end_at: end DateTime of the row (user TZ)
+  presenter: presenter passed in by index (TODO remove and make CellPresenter?)
+%>
+
+<%
+  row_presenter = Schedules::RowPresenter.new(
+    start_at:,
+    end_at:,
+    account: current_account,
+    user: current_user
+  )
+%>
+
+<div class="col-span-7 relative grid grid-cols-7">
+
+  <%# render cells %>
+  <% 7.times do |index| %>
+    <%=
+      render "schedules/cell",
+        date: start_at + index.days,
+        presenter:
+    %>
+  <% end %>
+
+  <%# render overlay (contains schedule buttons) %>
+  <div
+    style="width: calc(100% + 4rem);"
+    class="absolute top-7 -left-8 h-[70%] overflow-y-scroll pointer-events-none"
+  >
+
+    <div class="grid grid-cols-7 auto-rows-max px-8">
+      <% row_presenter.schedules.each_with_index do |schedule, index| %>
+        <% start_column = row_presenter.start_column(schedule:) %>
+        <% end_column = row_presenter.end_column(schedule:) %>
+        <% overflow_classes = row_presenter.overflow_classes(schedule:) %>
+
+        <div
+          data-application-target="modalButton"
+          data-modal-id="edit_schedule"
+          data-modal-action="open"
+          data-action="click->schedule--index#showEdit"
+          data-schedule-id="<%= schedule.id %>"
+          class="<%= overflow_classes %> col-start-<%= start_column %> col-end-<%= end_column %> px-2 py-1 bg-primary text-fill mb-1 text-xs grow pointer-events-auto hover:cursor-pointer hover:opacity-90"
+        >
+          <%= schedule.note.title %>
+        </div>
+
+      <% end %>
+    </div>
+
+  </div>
+</div>

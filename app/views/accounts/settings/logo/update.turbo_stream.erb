@@ -1,0 +1,19 @@
+<%# replace logo with new logo %>
+
+<%= turbo_stream.replace_all "#account_setings_#{@account.alt_id}_logo" do %>
+  <% if @account.logo.attached? %>
+    <%= render "accounts/logo", account: @account %>
+  <% else %>
+    <div id="account_setings_<%= @account.alt_id %>_logo" class="mt-2 border bg-input p-2 rounded">
+      No logo has been uploaded
+    </div>
+  <% end %>
+<% end %>
+
+<%=
+  render "toast",
+    message: "Update logo successfully",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

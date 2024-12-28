@@ -1,0 +1,126 @@
+
+<% @extra_head_content = capture do %>
+  <link rel="canonical" href="https://notespro.church/articles/notion-database">
+  <meta property="og:url" content="https://notespro.church/articles/notion-database">
+
+  <title>NotesPro | Notion Database Tutorial</title>
+  <meta name="description" content="You probably don't like using your church's ChMS, but you can still utilize technology to make sure people don't fall through the cracks. I'll show you how to create a simple system that you'll actually like using.">
+
+  <meta property="og:title" content="NotesPro | Notion Database Tutorial">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://notespro-static.s3.us-east-2.amazonaws.com/notespro_og.png">
+  <meta property="og:description" content="You probably don't like using your church's ChMS, but you can still utilize technology to make sure people don't fall through the cracks. I'll show you how to create a simple system that you'll actually like using.">
+<% end %>
+
+<h1 class="font-bold text-slate-700 text-4xl md:text-6xl leading-[1.3]">
+  <span>
+    Create an (Actually Helpful) Database for Your Ministry with Notion
+  </span>
+</h1>
+
+<div class="p-4 border rounded-xl border-slate-300 mt-12 bg-gradient-to-r from-slate-100/50 to-slate-400/20">
+  <h2 class="text-xl text-slate-600">
+    You probably don't like using your church's ChMS, but you can still utilize technology to make sure people don't fall through the cracks. I'll show you how to create a simple system that you'll actually like using <a class="underline text-primary" href="https://notion.so" target="_blank">Notion</a>.
+  </h2>
+
+  <p class="text-base font-normal align-super flex justify-between items-center gap-2 text-slate-500 mt-4">
+    <span>
+      By Eric Stoutenburg
+    </span>
+
+    <span class="text-primary text-sm inline-flex items-center gap-1 font-bold">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+        <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+        <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+      </svg>
+
+      <%= link_to "hello@notespro.church", "mailto:hello@notespro.church" %>
+    </span>
+  </p>
+</div>
+
+<h3 class="mt-16 text-xl font-bold text-slate-700">
+  Why do you need a database?
+</h3>
+
+<p class="text-lg text-slate-600 mt-2">
+  Keeping track of people is hard, sometimes it can be helpful to have system to ensure no one slips through the cracks. If you are involved in a medium or large sized church, you may already have access to a ChMS like Planning Center, Church Community Builder or another tool. But if you're a ministry leader, you may not get excited about logging in and using a tool that feels like an outdated spreadsheet. However, it can still be helpful to have a quick system to keep track of new additions to your ministry, quick conversations in the lobby and other quick thoughts.
+</p>
+
+<h3 class="mt-16 text-xl font-bold text-slate-700">
+  Why Notion?
+</h3>
+
+<p class="text-lg text-slate-600 mt-2">
+  Most people keep track of most of the information they come across in their head. However, humans are not great at remembering information. This is where a tool like Notion comes in. It's important to keep your database simple, otherwise it won't be used. This is why a lot of church staff have a *strong dislike* for their church's ChMS. Notion is almost as simple as it gets, and it's free. Let's dive in.
+</p>
+
+<h3 class="mt-16 text-xl font-bold text-slate-700">
+  Create a Notion Account
+</h3>
+
+<p class="text-lg text-slate-600 mt-2">
+  Head over to <a href="https://notion.so" target="_blank" class="underline text-primary">notion.so</a> to sign up, it's free!
+</p>
+
+<%=
+  render "marketing/image",
+    cloudinary_path: "NotesPro_Manual_Uploads/notion_database/notion_signup_ji1fix",
+    alt: "notion sign up"
+%>
+
+<h3 class="mt-16 text-xl font-bold text-slate-700">
+  Set Up Your Home Page
+</h3>
+
+<p class="text-lg text-slate-600 mt-2">
+  Once you're signed up, you'll want to set up a home base in Notion before we create your people database. Every time you log into Notion you'll see this page, so you'll want to make sure it's helpful and inspiring. I like to put my goals for the year right there front and center as well as any other reminders you want yourself to be thinking about every day.
+</p>
+
+<%=
+  render "marketing/image",
+    cloudinary_path: "NotesPro_Manual_Uploads/notion_database/notion_home_base_ztyat2",
+    alt: "notion example home page"
+%>
+
+<h3 class="mt-16 text-xl font-bold text-slate-700">
+  Duplicate Our Template & Add Your People
+</h3>
+
+<p class="text-lg text-slate-600 mt-2">
+  You'll notice the 'People' link under the tools section above. The last step here is to follow the link to our people database template below and hit 'Duplicate'. Boom! You'll have your own people database in Notion to keep track of the people in your ministry. No more sticky notes, lost thoughts or forgotten follow-ups. Of course this is just the beginning. We'll be going in-depth on how to build out an entire ChMS system in Notion that you'll actually like using. Check out the Automation video below for a sneak peak of that.
+</p>
+
+<div class="my-6">
+  <a href="https://notespro.notion.site/fc999461d8964913b86795cd5efb9cff?v=5e6d97b26029436fae4981537bd2d463&pvs=74" target="_blank" class="px-4 py-2 rounded bg-primary text-fill font-bold text-lg inline-block mx-auto">Go to Notion Template</a>
+</div>
+
+<%=
+  render "marketing/image",
+    cloudinary_path: "NotesPro_Manual_Uploads/notion_database/notion_duplicate_priqqh",
+    alt: "duplicate notion template"
+%>
+
+<%=
+  render "marketing/image",
+    cloudinary_path: "NotesPro_Manual_Uploads/notion_database/notion_person_vtuoxl",
+    alt: "example notion database person"
+%>
+
+<h3 class="mt-16 text-xl font-bold text-slate-700">
+  Advanced: Automation
+</h3>
+
+<p class="text-lg text-slate-600 mt-2">
+  I've created a form with <a href="https://tally.so" target="_blank" class="underline text-primary">tally.so</a> (also free) to collect new small group leaders info. Then, their info goes into your people database in Notion so you can follow up. The automation also will also send you an email with a link to the new person in Notion so you can jump right there. I'm making a video on how to create this for your ministry, but in the meantime if you'd like me to set this up for you shoot me an email - <a href="mailto:hello@notespro.church?subject=notion+automation" class="text-primary font-bold">hello@notespro.church</a>.
+</p>
+
+<%=
+  render "marketing/image",
+    cloudinary_path: "NotesPro_Manual_Uploads/notion_database/make_automation_jqu0tz",
+    alt: "make automation example"
+%>
+
+<p class="text-lg text-slate-600 mt-12">
+  This is just the tip of the iceberg. Even if it doesn't feel like it, you can actually make technology work for you and make your life easier. Imagine a world where no one in your ministry was left behind. That's possible with automation and technology! Enter your email below to get tips like this delivered right to your inbox.
+</p>

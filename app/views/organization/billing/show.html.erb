@@ -1,0 +1,102 @@
+<%
+  presenter = BillingPresenter.new(
+    account: @account,
+    subscription: @subscription,
+    user: current_user
+  )
+%>
+
+<aside class="flex justify-between bg-fill items-center p-4 rounded mb-8">
+  <div>
+    <h3 class="font-semibold text-xl">Plan & Billing</h3>
+  </div>
+
+  <div>
+    <% if presenter.show_manage_billing? %>
+      <%=
+        link_to @manage_billing_url,
+          target: :_blank,
+          data: {
+            turbo: false
+          },
+          class: "px-4 py-2 text-fill rounded bg-primary inline-flex items-center" do
+      %>
+        Manage Billing Details
+        <i class="ml-2">
+          <%= render "application/icons/external_link" %>
+        </i>
+      <% end %>
+    <% end %>
+  </div>
+</aside>
+
+<section class="py-4 px-5 bg-fill rounded-md mb-8">
+  <h3 class="mb-4 text-lg font-semibold">Features</h3>
+
+  <div class="flex md:items-start flex-col md:flex-row">
+    <div class="border bg-input md:py-4 md:pl-4 md:pr-16 p-4 rounded mb-4 md:mb-0">
+      <p class="font-bold text-xl">
+        <% if current_account.organization.free? %>
+          Free
+        <% else %>
+          <%= @wrapper.real_plan_string %>
+        <% end %>
+      </p>
+
+      <% if presenter.show_price? %>
+        <p class="mt-2">
+          <span class="text-5xl font-bold">
+            $<%= @wrapper.plan_price.to_s %>
+          </span>
+          <span class="-ml-1 text-2xl font-bold">
+            /mo
+          </span>
+        </p>
+      <% end %>
+
+      <% if current_organization.multisite? %>
+        <p class="mt-2 text-muted">
+          +<%= pluralize Account.where(is_main: false, subscription: current_organization.main_account).size, "subaccount" %>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="flex-1 md:ml-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2">
+        <% @account.organization.plan_features.each do |feature| %>
+          <p class="mr-2 mb-2 flex items-center rounded px-4 py-2 ">
+            <% if feature.enabled %>
+              <i class="text-success mr-2">
+                <%= render "application/icons/check" %>
+              </i>
+            <% else %>
+              <i class="text-info mr-2">
+                <%= render "application/icons/information_circle" %>
+              </i>
+            <% end %>
+
+            <span class="flex flex-col">
+              <%= feature.name %>
+
+              <span class="text-muted">
+                <%= feature.description %>
+              </span>
+            </span>
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if current_organization.multisite? %>
+  <div class="grid grid-cols-1 justify-stretch md:grid-cols-3 gap-8">
+    <section class="py-4 px-5 bg-fill rounded-md col-span-2">
+      <h3 class="mb-4 text-lg font-semibold">Sub-Accounts</h3>
+
+      <% current_organization.top_level_accounts.each do |account| %>
+        <%= render "organization/billing/subaccount", subaccount: account %>
+      <% end %>
+    </section>
+  </div>
+<% end %>

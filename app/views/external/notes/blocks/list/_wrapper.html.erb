@@ -1,0 +1,11 @@
+<% nested ||= false %>
+
+<% if style == "unordered" %>
+  <ul class="list-inside list-disc <%= nested ? "ml-4" : "my-4" %>">
+    <%= yield %>
+  </ul>
+<% else %>
+  <ol class="list-inside list-decimal <%= nested ? "ml-4" : "my-4" %>">
+    <%= yield %>
+  </ol>
+<% end %>

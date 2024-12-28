@@ -1,0 +1,24 @@
+<%#
+  Renders a block for the note editor
+
+  block: A block
+  autofocus: Boolean indicating if this block should be autofocused (optional)
+  is_child: Boolean indicating if this block should be autofocused (optional)
+%>
+
+<% autofocus ||= false %>
+
+<div
+  data-is-block-container=true
+  data-block-id="<%= block.guid %>"
+  class="sortablejs-draggable flex group items-center"
+>
+  <%= render "notes/editor/dropdown", block: block %>
+
+  <%=
+    render "notes/editor/block_contents",
+      block:,
+      autofocus:,
+      is_top_level: true
+  %>
+</div>

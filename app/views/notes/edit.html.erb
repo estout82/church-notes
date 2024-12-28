@@ -1,0 +1,288 @@
+<%= render "notes/header" %>
+
+<div
+  data-controller="note--edit"
+  data-note--edit-note-id-value="<%= @note.alt_id %>"
+  class="flex flex-col-reverse items-stretch md:flex-row"
+>
+  <%# editor %>
+  <%=
+    form_with model: @note,
+      url: note_path(@note),
+      method: :patch,
+      class: "block flex-1 flex" do |f|
+  %>
+    <main class="flex-1 flex flex-col bg-fill md:mr-8 p-4 md:rounded-md max-w-[780px]">
+      <div class="flex justify-between">
+        <h2 class="font-semibold text-3xl mb-4">
+          Note Editor
+        </h2>
+
+        <div class="flex gap-2 items-start">
+          <button
+            type="button"
+            data-application-target="modalButton"
+            data-modal-id="delete_note_confirm"
+            data-modal-action="open"
+            class="px-4 py-1 rounded bg-error text-fill"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <%=
+          label_tag :title,
+            "Title",
+            class: "text-muted block mb-2"
+        %>
+
+        <%=
+          f.text_field :title,
+            autocomplete: :off,
+            class: "inline-block text-muted text-lg rounded-md bg-input px-2 py-1 w-full min-h-[2rem] focus:outline-none break-words align-middle",
+            data: {
+              action: "input->note--edit#handleTitleChange"
+            }
+        %>
+      </div>
+
+      <% if current_account.organization.multisite? %>
+        <div  class="mb-8">
+          <%=
+            label_tag :sharing,
+              "Sharing",
+              class: "text-muted block mb-2"
+          %>
+
+          <select
+            id="note_sharing"
+            name="note[sharing]"
+            class="text-muted text-lg rounded-md bg-input px-2 py-1"
+          >
+            <% if current_account.main? %>
+              <option
+                <%= "selected" if @note.default_sharing? %>
+                value="default_sharing"
+              >
+                Only this account
+              </option>
+              <option
+                <%= "selected" if @note.sub_account_sharing? %>
+                value="sub_account_sharing"
+              >
+                All <%= current_account.name %> Sub-Accounts
+              </option>
+            <% else %>
+              <option
+                <%= "selected" if @note.default_sharing? %>
+                value="default_sharing"
+              >
+                Only this account
+              </option>
+              <option
+                <%= "selected" if @note.sub_account_sharing? %>
+                value="sub_account_sharing"
+              >
+                <%= current_account.name %> Sub-Accounts
+              </option>
+              <option
+                <%= "selected" if @note.organization_sharing? %>
+                value="organization_sharing"
+              >
+                All <%= current_account.organization.name %> Sub-Accounts
+              </option>
+            <% end %>
+          </select>
+        </div>
+      <% end %>
+
+      <div id="content" class="rounded-md flex flex-col">
+        <%=
+          render "notes/editor",
+            note: @note,
+            simple: true,
+            form: f
+        %>
+      </div>
+    </main>
+  <% end %>
+
+  <aside class="md:w-72 rounded-md">
+
+    <%# link %>
+    <div class="bg-fill md:rounded-md p-4 mb-8">
+      <p class="text-muted block mb-2">Note Link</p>
+      <div class="rounded-md px-2 py-1 bg-input relative flex justify-end overflow-hidden">
+        <p class="absolute left-2 text-muted w-72 top-2 line-clamp-1">
+          <%= external_note_url(@note.alt_id) %>
+        </p>
+
+        <button
+          data-action="click->note--edit#copyNoteLink"
+          class="relative z-10 rounded-md bg-primary text-fill px-2 py-1"
+        >
+          Copy
+        </button>
+
+        <%# gradient overlay %>
+        <div class="absolute bg-gradient-to-r from-transparent to-input w-64 h-full right-0 top-0 pointer-events-none"></div>
+
+        <%# this element stores the link to copy %>
+        <span data-note--edit-target="noteLink" class="hidden">
+          <%= external_note_url @note.alt_id %>
+        </span>
+      </div>
+    </div>
+
+    <%# banner %>
+    <div class="bg-fill md:rounded-md p-4 mb-8">
+      <h3 class="text-muted block mb-2">Banner</h3>
+
+      <%= render "notes/banners/image", note: @note %>
+
+      <div class="flex justify-between items-center mt-4">
+        <div class="flex items-center">
+          <button
+            data-application-target="modalButton"
+            data-modal-id="unsplash_modal"
+            data-modal-action="open"
+            class="bg-primary px-4 py-1 text-fill rounded"
+          >
+            Browse
+          </button>
+
+          <button
+            data-application-target="modalButton"
+            data-modal-id="upload_banner"
+            data-modal-action="open"
+            class="px-4 py-1 text-primary"
+          >
+            Upload
+          </button>
+        </div>
+
+        <div class="ml-2">
+          <%=
+            button_to note_banner_path(@note),
+              method: :delete,
+              class: "px-2 py-1 text-error rounded" do
+          %>
+            <i class="fa fa-times"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%# unsplash modal %>
+    <%= render "application/modal", modal_id: :unsplash_modal do %>
+      <button
+        data-application-target="modalButton"
+        data-modal-id="unsplash_modal"
+        data-modal-action="close"
+        class="text-gray-400 font-bold absolute top-4 right-4"
+      >
+        <i class="fa fa-times"></i>
+      </button>
+
+      <div class="rounded-md md:w-[70vw] md:h-[70vh] flex flex-col">
+        <h3 class="text-muted block mb-2">Select a Banner</h3>
+
+        <div class="flex pl-1 pr-2 mb-4">
+          <%=
+            form_with url: edit_note_banner_path(@note),
+              data: {
+                turbo_frame: :unsplash_results
+              },
+              method: :get,
+              class: "flex grow" do |f|
+          %>
+            <%=
+              f.text_field :query,
+                data: {action: "input->unsplashSearch"},
+                placeholder: "Search",
+                class: "grow px-2 py-1 bg-input rounded"
+            %>
+            <%= f.submit "Search", data: {note__edit_target: "submitUnsplashSearch"}, class: "ml-2 rounded bg-primary px-2 py-1 text-fill" %>
+          <% end %>
+        </div>
+
+        <div class="grow overflow-scroll no-scroll-bar">
+
+            <%=
+              turbo_frame_tag :unsplash_results,
+                src: edit_note_banner_path(@note),
+                loading: :lazy
+            %>
+
+        </div>
+      </div>
+    <% end %>
+  </aside>
+
+</div>
+
+<%= render "application/modal", modal_id: "delete_note_confirm" do %>
+  <h3 class="font-semibold text-xl">
+    Are you sure?
+  </h3>
+  <p>Deleting a note cannot be undone.</p>
+  <div class="flex items-center justify-center mt-4">
+    <%=
+      button_to "Delete",
+        note_path(@note),
+        method: :delete,
+        class: "px-4 py-1 rounded bg-error text-fill mr-2"
+    %>
+
+    <button
+      data-application-target="modalButton"
+      data-modal-id="delete_note_confirm"
+      data-modal-action="close"
+      class="bg-muted rounded px-4 py-1 text-fill"
+    >
+      Cancel
+    </button>
+  </div>
+<% end %>
+
+<%= render "application/modal", modal_id: "upload_banner" do %>
+  <h3 class="font-semibold text-xl">
+    Upload Banner
+  </h3>
+
+  <%=
+    form_with url: note_banner_path(@note),
+      method: :post,
+      class: "" do |f|
+  %>
+    <div>
+      <%=
+        f.file_field "note[banner]",
+          direct_upload: true,
+          class: "mt-4"
+      %>
+    </div>
+
+    <div class="flex justify-center mt-4">
+      <%=
+        f.submit "Save",
+          data: {
+            controller: "loading",
+            action: "loading#apply"
+          },
+          class: "px-4 py-1 text-fill rounded bg-primary"
+      %>
+
+      <button
+        data-application-target="modalButton"
+        data-modal-id="upload_banner"
+        data-modal-action="close"
+        class="ml-2 bg-muted rounded px-4 py-1 text-fill"
+      >
+        Cancel
+      </button>
+    </div>
+  <% end %>
+<% end %>

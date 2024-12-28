@@ -1,0 +1,23 @@
+<%# Closes the currently open modal %>
+
+<% all ||= false %>
+
+<% if all %>
+
+  <%= turbo_stream.append :modal_events do %>
+    <div
+      class="hidden"
+      data-application-target="closeAllModals"
+    ></div>
+  <% end %>
+
+<% else %>
+
+  <%= turbo_stream.append :modal_events do %>
+    <div
+      class="hidden"
+      data-application-target="closeModal"
+    ></div>
+  <% end %>
+
+<% end %>

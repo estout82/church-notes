@@ -1,0 +1,20 @@
+<%# Renders UI changes when a user account member is destroyed %>
+
+<%= turbo_stream.remove dom_id(@member) %>
+
+<% if @remove_user_row %>
+  <%#
+    If we are removing the user from an account, we need to make sure we
+    remove the entire user row when removing users from a sub account.
+  %>
+
+  <%= turbo_stream.remove dom_id(@member.user) %>
+<% end %>
+
+<%=
+  render "toast",
+    message: "Removed #{@member.user.full_name} from #{@member.account.name}",
+    level: :success
+%>
+
+<%= render "application/modals/close" %>

@@ -1,0 +1,29 @@
+<%#
+  Renders meta tags for the head
+
+  description
+  title
+  og_image
+%>
+
+<% description ||= nil %>
+<% title ||= nil %>
+<% og_image ||= nil %>
+
+<% @meta = capture do %>
+
+  <% if title.present? %>
+    <title><%= title %></title>
+  <% else %>
+    <title>NotesPro</title>
+  <% end %>
+
+  <% if description.present? %>
+    <meta name="description" content="<%= description %>">
+  <% end %>
+
+  <% if og_image.present? %>
+    <meta property="og:image" content="<%= og_image %>">
+  <% end %>
+
+<% end %>

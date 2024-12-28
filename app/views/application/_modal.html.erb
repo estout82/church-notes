@@ -1,0 +1,19 @@
+<%#
+  Renders a modal container with a body
+
+  hidden: controls weather or not the modal is hidden (true by default)
+%>
+
+<div
+  id="<%= modal_id %>"
+  class="hidden z-30 w-screen h-screen fixed top-0 left-0 flex items-center justify-center"
+>
+  <div class="absolute w-full h-full opacity-75 bg-dark"></div>
+
+  <div
+    data-modal-role="panel"
+    class="relative z-50 bg-fill rounded p-4 shadow-md max-h-screen"
+  >
+    <%= yield %>
+  </div>
+</div>

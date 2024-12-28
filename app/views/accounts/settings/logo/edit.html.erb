@@ -1,0 +1,26 @@
+<%= turbo_frame_tag :edit_account_logo do %>
+  <h3 class="text-lg font-semibold mb-4">Upload Image</h3>
+
+  <div>
+    <%= form_with model: @account, url: account_settings_logo_path(@account), method: :patch do |f| %>
+      <div class="flex flex-col">
+        <%= f.label :logo, "Logo", class: "text-lg" %>
+        <%= f.file_field :logo, class: "mt-2 border bg-input p-2 rounded" %>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <button
+          data-application-target="modalButton"
+          data-modal-id="edit_account_logo"
+          data-modal-action="close"
+          type="button"
+          class="px-4 py-1 rounded mr-2 text-fill bg-muted"
+        >
+          Cancel
+        </button>
+
+        <%= render "application/forms/submit_button", form: f %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

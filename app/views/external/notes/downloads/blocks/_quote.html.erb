@@ -1,0 +1,9 @@
+<div class="border-l-4 border-concert-400 pl-4 my-4">
+  <p style="font-weight: 400;">
+    <%= raw renderer.render_html(html: block_data.data["text"]) %>
+  </p>
+
+  <p style="font-weight: 400; color: grey;" class="mt-2">
+    <%= raw renderer.render_html(html: block_data.data["caption"]) %>
+  </p>
+</div>

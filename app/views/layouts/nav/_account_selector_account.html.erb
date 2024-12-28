@@ -1,0 +1,34 @@
+<%#
+  Renders an account for the account selector
+
+  account: the account being rendered
+  presenter: a Nav::AccountSelectorPresenter
+%>
+
+<div class="mt-2">
+  <%=
+    link_to account.name,
+      root_path(switch_account: account.id),
+      class: "hover:text-primary text-black text-left text-sm"
+  %>
+
+  <p class="text-xs text-muted">
+    Sub-Account
+  </p>
+
+  <% if presenter.sub_accounts_for(account:).present? %>
+
+    <div class="relative pl-6 mt-2">
+      <i class="absolute top-1 left-1 fa fa-level-up-alt transform rotate-90"></i>
+
+      <% presenter.sub_accounts_for(account:).each do |sub_account| %>
+        <%=
+          render "layouts/nav/account_selector_account",
+            account: sub_account,
+            presenter:
+        %>
+      <% end %>
+    </div>
+
+  <% end %>
+</div>

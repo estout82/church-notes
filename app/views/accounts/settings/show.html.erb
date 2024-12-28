@@ -1,0 +1,14 @@
+<div>
+
+  <aside class="flex justify-between bg-fill items-center p-4 rounded">
+    <h3 class="font-semibold text-xl">Settings</h3>
+  </aside>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+
+    <%= render "accounts/settings/details", account: @account %>
+
+    <%= render "accounts/settings/logo", account: @account %>
+  </div>
+
+</div>
