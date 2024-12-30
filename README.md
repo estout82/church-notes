@@ -1,5 +1,3 @@
-# Styling
+# notespro.church
 
-### Z-Index
-
-- **Flash Messages**: z-50
+This is a retried project of mine. Feel free to peruse the codebase.
